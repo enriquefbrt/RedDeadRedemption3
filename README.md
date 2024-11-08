@@ -1,2 +1,4 @@
 # RedDeadRedemption3
-GOTY
+Enrique Fernández-Baíllo Rodríguez de Tembleque
+
+Jacobo Banús Bertram
