@@ -5,7 +5,7 @@ using UnityEngine;
 public class Walk : MonoBehaviour
 {
     public Animator characterWalk;
-    public float walkingSpeed = 2f;
+    public float walkingSpeed = 3f;
 
     // Start is called before the first frame update
     void Start()
@@ -16,17 +16,26 @@ public class Walk : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            characterWalk.SetBool("moving", true);
-        }
-
         if (Input.GetKey(KeyCode.D))
         {
             transform.Translate(Vector3.right * walkingSpeed * Time.deltaTime);
+            characterWalk.SetBool("moving", true);
+            characterWalk.SetBool("right", false);
         }
 
         if (Input.GetKeyUp(KeyCode.D))
+        {
+            characterWalk.SetBool("moving", false);
+        }
+
+        if (Input.GetKey(KeyCode.A))
+        {
+            transform.Translate(Vector3.left * walkingSpeed * Time.deltaTime);
+            characterWalk.SetBool("moving", true);
+            characterWalk.SetBool("right", false);
+        }
+
+        if (Input.GetKeyUp(KeyCode.A))
         {
             characterWalk.SetBool("moving", false);
         }
