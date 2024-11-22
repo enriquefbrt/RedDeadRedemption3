@@ -2,14 +2,22 @@ using UnityEngine;
 
 public class JumpScript : MonoBehaviour
 {
-    public float jumpForce = 5f; // Adjust the jump force as needed
-    private Rigidbody rb;       // Reference to the Rigidbody component
+    public float jumpHeight = 50f; // Desired jump height
+    public float gravityMultiplier = 3f; // Multiplier to speed up upward and downward motion
+    private Rigidbody rb; // Reference to the Rigidbody component
     private bool isGrounded = true; // Check if the player is grounded
+    private float originalGravity;
 
     void Start()
     {
         // Get the Rigidbody component attached to this GameObject
         rb = GetComponent<Rigidbody>();
+
+        // Store the original gravity value
+        originalGravity = Physics.gravity.y;
+
+        // Increase gravity for faster jumps
+        Physics.gravity = new Vector3(0, originalGravity * gravityMultiplier, 0);
     }
 
     void Update()
@@ -23,8 +31,12 @@ public class JumpScript : MonoBehaviour
 
     void Jump()
     {
-        // Apply a vertical force for the jump
-        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        // Calculate the required jump force to reach the desired height
+        float jumpForce = Mathf.Sqrt(2 * Mathf.Abs(Physics.gravity.y / gravityMultiplier) * jumpHeight);
+
+        // Apply the jump force directly
+        rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
+
         isGrounded = false; // Player is no longer grounded after the jump
     }
 
