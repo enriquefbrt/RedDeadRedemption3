@@ -4,15 +4,26 @@ using UnityEngine;
 
 public class Walk : MonoBehaviour
 {
-    public Animator characterWalk;
-    public Transform child;
+    public Animator chrWalk;
+
+    public Transform chrTransform;
+    public Transform gunTransform;
+
+    public GameObject gun;
+    private GunStart _gunStart;
+
     public float walkingSpeed = 3f;
     private bool _right = true;
+    private bool _isFlipped = false;
+    private float _gunX;
 
     // Start is called before the first frame update
     void Start()
     {
-        characterWalk = GetComponentInChildren<Animator>();
+        chrWalk = GetComponentInChildren<Animator>();
+        _gunStart = gun.GetComponent<GunStart>();
+
+        _gunX = _gunStart.x;
     }
 
     // Update is called once per frame
@@ -21,7 +32,7 @@ public class Walk : MonoBehaviour
         if (Input.GetKey(KeyCode.D))
         {
             transform.Translate(Vector3.right * walkingSpeed * Time.deltaTime);
-            characterWalk.SetBool("moving", true);
+            chrWalk.SetBool("moving", true);
             if (!_right)
             {
                 _right = true;
@@ -31,13 +42,13 @@ public class Walk : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.D))
         {
-            characterWalk.SetBool("moving", false);
+            chrWalk.SetBool("moving", false);
         }
 
         if (Input.GetKey(KeyCode.A))
         {
             transform.Translate(Vector3.left * walkingSpeed * Time.deltaTime);
-            characterWalk.SetBool("moving", true);
+            chrWalk.SetBool("moving", true);
             if (_right)
             {
                 _right = false;
@@ -47,14 +58,23 @@ public class Walk : MonoBehaviour
 
         if (Input.GetKeyUp(KeyCode.A))
         {
-            characterWalk.SetBool("moving", false);
+            chrWalk.SetBool("moving", false);
         }
     }
 
     void FlipChild()
     {
-        Vector3 scale = child.localScale;
-        scale.x *= -1;
-        child.localScale = scale;
+        Vector3 chrScale = chrTransform.localScale;
+        chrScale.x *= -1;
+        chrTransform.localScale = chrScale;
+
+        Vector3 gunScale = gunTransform.localScale;
+        gunScale.x *= -1;
+        gunTransform.localScale = gunScale;
+
+        _isFlipped = !_isFlipped;
+
+        if (_isFlipped) { gunTransform.Translate(new Vector3(-2*_gunX, 0, 0)); }
+        else { gunTransform.Translate(new Vector3(2 * _gunX, 0, 0)); }
     }
 }
