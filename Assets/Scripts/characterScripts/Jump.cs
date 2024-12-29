@@ -6,9 +6,7 @@ public class JumpScript : MonoBehaviour
     public float jumpHeight = 2.71828f; // Desired jump height
     private Rigidbody rb; // Reference to the Rigidbody component
     private bool isGrounded = true; // Check if the player is grounded
-
-    private float _timeKeyPressed = 0f; // Tiempo acumulado de la tecla presionada
-    private bool _isKeyBeingPressed = false; // Estado de la tecla
+    private bool doubleJump = false;
 
     void Start()
     {
@@ -19,34 +17,27 @@ public class JumpScript : MonoBehaviour
 
     void Update()
     {
-        // Check for jump input
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            chrWalk.SetBool("spacebar", true);
-            _isKeyBeingPressed = true;
-            _timeKeyPressed = 0f;
-        }
-
-        if (Input.GetKey(KeyCode.Space) && _isKeyBeingPressed)
-        {
-            _timeKeyPressed += Time.deltaTime;
-        }
-
-        if (Input.GetKeyUp(KeyCode.Space) && isGrounded)
-        {
-            chrWalk.SetBool("spacebar", false);
-            chrWalk.SetBool("jumping", true);
-            Jump();
-            _isKeyBeingPressed = false;
+            if (isGrounded)
+            {
+                chrWalk.SetBool("jumping", true);
+                Jump(jumpHeight);
+                doubleJump = true;
+            }
+            else if (doubleJump)
+            {
+                chrWalk.SetBool("doubleJump", true);
+                Jump(jumpHeight * 0.75f);
+                doubleJump = false;
+            }
         }
     }
 
-    void Jump()
+    void Jump(float jumpHeight)
     {
         // Calculate the required jump force to reach the desired height
-        float jumpForce;
-        if (_timeKeyPressed < 0.75f) { jumpForce = Mathf.Sqrt(2 * Mathf.Abs(Physics.gravity.y) * jumpHeight); }
-        else { jumpForce = Mathf.Sqrt(2 * Mathf.Abs(Physics.gravity.y) * 1.75f * jumpHeight); }
+        float jumpForce = Mathf.Sqrt(2 * Mathf.Abs(Physics.gravity.y) * jumpHeight);
 
         // Apply the jump force directly
         rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
@@ -61,6 +52,7 @@ public class JumpScript : MonoBehaviour
         {
             isGrounded = true;
             chrWalk.SetBool("jumping", false);
+            chrWalk.SetBool("doubleJump", false);
         }
     }
 }
