@@ -7,17 +7,20 @@ public class EnemyBehaviour : MonoBehaviour
     public float amplitude = 3f;  
     public float attackCooldown = 2f; 
 
-    private enum EnemyState { Fly, Attack, Cooldown }
+    private enum EnemyState { Fly, Cooldown, Dying }
     private EnemyState currentState;
 
     private EnemyAnimation enemyAnimation;
     private Vector3 startPosition;
+
+    private FireballBehavior fireballBehavior;
 
     void Start()
     {
         enemyAnimation = GetComponentInChildren<EnemyAnimation>();
         startPosition = transform.position;
         currentState = EnemyState.Fly; 
+        fireballBehavior = GetComponentInChildren<FireballBehavior>();
     }
 
     void Update()
@@ -30,17 +33,17 @@ public class EnemyBehaviour : MonoBehaviour
     {
         if (other.CompareTag("Player") && currentState == EnemyState.Fly)
         {
-            currentState = EnemyState.Attack;
+            currentState = EnemyState.Cooldown;
+            fireballBehavior.ActivateFireball();
             StartCoroutine(HandleAttack());
         }
+
     }
 
     private IEnumerator HandleAttack()
     {
         enemyAnimation.TriggerAttackAnimation();
-        yield return new WaitForSeconds(enemyAnimation.GetAttackAnimationLength());
-        currentState = EnemyState.Cooldown;
-        yield return new WaitForSeconds(attackCooldown);
+        yield return new WaitForSeconds(enemyAnimation.GetAttackAnimationLength() + attackCooldown);
         currentState = EnemyState.Fly;
     }
 }
