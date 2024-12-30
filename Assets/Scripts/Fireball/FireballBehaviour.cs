@@ -71,7 +71,7 @@ public class FireballBehavior : MonoBehaviour
         Animation.TriggerExplosionAnimation();
         isFlying = false;
         fireball.transform.SetParent(null, true);
-        yield return new WaitForSeconds(0.25f);  // Adjust this to match the explosion animation's duration
+        yield return new WaitForSeconds(0.333f);  // Adjust this to match the explosion animation's duration
         transform.SetParent(enemyTransform);
         transform.position = enemyTransform.position;
         // Reset the fireball's position and set it to inactive (hidden at monster's position)
