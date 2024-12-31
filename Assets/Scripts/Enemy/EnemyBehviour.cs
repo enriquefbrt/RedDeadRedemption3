@@ -34,7 +34,6 @@ public class EnemyBehaviour : MonoBehaviour
         if (other.CompareTag("Player") && currentState == EnemyState.Fly)
         {
             currentState = EnemyState.Cooldown;
-            fireballBehavior.ActivateFireball();
             StartCoroutine(HandleAttack());
         }
 
@@ -43,7 +42,9 @@ public class EnemyBehaviour : MonoBehaviour
     private IEnumerator HandleAttack()
     {
         enemyAnimation.TriggerAttackAnimation();
-        yield return new WaitForSeconds(enemyAnimation.GetAttackAnimationLength() + attackCooldown);
+        yield return new WaitForSeconds(enemyAnimation.GetAttackAnimationLength()/2); //middle of animation
+        fireballBehavior.ActivateFireball();
+        yield return new WaitForSeconds(attackCooldown);
         currentState = EnemyState.Fly;
     }
 }

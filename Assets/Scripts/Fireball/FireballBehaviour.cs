@@ -4,13 +4,11 @@ using System.Collections;
 public class FireballBehavior : MonoBehaviour
 {
     private FireballAnimation Animation;  // Reference to the Animator on the FireballAnimator child
-    private GameObject fireball;  // This GameObject is the fireball (parent of FireballAnimator)
     public bool isFlying = false;
     private Transform enemyTransform;
 
     void Start()
     {
-        fireball = this.gameObject;
         Animation = GetComponentInChildren<FireballAnimation>();
         Animation.hide();
         enemyTransform = transform.parent;
@@ -27,11 +25,10 @@ public class FireballBehavior : MonoBehaviour
     // Coroutine to simulate the fireball flying
     private IEnumerator FlyFireball()
     {
-        yield return new WaitForSeconds(0.525f); //middle of animation
         Animation.appear();
         isFlying = true;
         float flightTime = 2f;  // How long the fireball will fly
-        Vector3 initialPosition = fireball.transform.parent.position - new Vector3(0.75f,0f,0f);  //Not right on the monster
+        Vector3 initialPosition = transform.parent.position - new Vector3(0.75f,0f,0f);  //Not right on the monster
         Vector3 targetPosition = initialPosition - new Vector3(10f, 0f, 0f);  // Fly forward on X-axis
 
 
@@ -43,7 +40,7 @@ public class FireballBehavior : MonoBehaviour
                 break;  // Exit the loop if isFlying becomes false
             }
 
-            fireball.transform.position = Vector3.Lerp(initialPosition, targetPosition, elapsedTime / flightTime);
+            transform.position = Vector3.Lerp(initialPosition, targetPosition, elapsedTime / flightTime);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
@@ -70,7 +67,7 @@ public class FireballBehavior : MonoBehaviour
         // Wait for the explosion animation to finish (adjust the time based on animation length)
         Animation.TriggerExplosionAnimation();
         isFlying = false;
-        fireball.transform.SetParent(null, true);
+        transform.SetParent(null, true);
         yield return new WaitForSeconds(0.333f);  // Adjust this to match the explosion animation's duration
         transform.SetParent(enemyTransform);
         transform.position = enemyTransform.position;
