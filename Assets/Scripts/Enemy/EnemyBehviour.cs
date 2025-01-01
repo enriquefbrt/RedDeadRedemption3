@@ -1,5 +1,5 @@
 using UnityEngine;
-using System.Collections;
+using System.Collections;   //PARA AQUI
 
 public class EnemyBehaviour : MonoBehaviour
 {
@@ -13,14 +13,13 @@ public class EnemyBehaviour : MonoBehaviour
     private EnemyAnimation enemyAnimation;
     private Vector3 startPosition;
 
-    private FireballBehavior fireballBehavior;
+    public GameObject fireball;
 
     void Start()
     {
         enemyAnimation = GetComponentInChildren<EnemyAnimation>();
         startPosition = transform.position;
         currentState = EnemyState.Fly; 
-        fireballBehavior = GetComponentInChildren<FireballBehavior>();
     }
 
     void Update()
@@ -43,7 +42,8 @@ public class EnemyBehaviour : MonoBehaviour
     {
         enemyAnimation.TriggerAttackAnimation();
         yield return new WaitForSeconds(enemyAnimation.GetAttackAnimationLength()/2); //middle of animation
-        fireballBehavior.ActivateFireball();
+        GameObject newFireball = Instantiate(fireball, transform.position, Quaternion.identity);
+        newFireball.transform.SetParent(transform);
         yield return new WaitForSeconds(attackCooldown);
         currentState = EnemyState.Fly;
     }

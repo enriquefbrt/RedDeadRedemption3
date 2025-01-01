@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FireballAnimation : MonoBehaviour
+public class FireballAnimation : MonoBehaviour     //AQUI
 {
     private Animator animator;
 
