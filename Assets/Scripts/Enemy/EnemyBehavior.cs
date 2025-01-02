@@ -6,9 +6,11 @@ public class EnemyBehavior : MonoBehaviour
     public float speed = 1f;      
     public float amplitude = 3f;  
     public float attackCooldown = 2f;
+    public int maxLife;
     public GameObject fireballPrefab;
 
     private enum EnemyState { Fly, Cooldown, Dying }
+    private int life;
     private EnemyState currentState;
     private Vector3 startPosition;
     private EnemyAnimation enemyAnimation;
@@ -16,9 +18,10 @@ public class EnemyBehavior : MonoBehaviour
 
     void Start()
     {
-        enemyAnimation = GetComponentInChildren<EnemyAnimation>();
+        currentState = EnemyState.Fly;
+        life = maxLife;
         startPosition = transform.position;
-        currentState = EnemyState.Fly; 
+        enemyAnimation = GetComponentInChildren<EnemyAnimation>();
     }
 
     void Update()
@@ -31,8 +34,8 @@ public class EnemyBehavior : MonoBehaviour
     {
         if (currentState == EnemyState.Fly && other.CompareTag("Player"))
         {
-            currentState = EnemyState.Cooldown;
             StartCoroutine(Attack());
+            currentState = EnemyState.Cooldown;
         }
 
     }
