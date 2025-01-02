@@ -380,8 +380,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 5, y: 1, z: 0.1}
-  m_Center: {x: -2, y: 0, z: 0}
+  m_Size: {x: 15, y: 1, z: 0.1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &355185249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -394,11 +394,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1a9bb99f583cc84dad2947db8120c8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
+  speed: 2.5
   amplitude: 3
+  amplitudeY: 0.07
+  frequence: 0.7
+  frequenceY: 3
   attackCooldown: 2
-  maxLife: 0
+  maxHealth: 0
+  orientation: 1
+  pursuitThreshold: 5
+  fireballOffset: {x: 0.7, y: 0, z: 0}
   fireballPrefab: {fileID: 2732654494112040920, guid: 1e4f1d8d32d89c448a20cc21c9185021, type: 3}
+  isFollowing: 0
 --- !u!1 &391757723
 GameObject:
   m_ObjectHideFlags: 0

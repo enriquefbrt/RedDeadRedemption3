@@ -5,6 +5,7 @@ public class FireballBehavior : MonoBehaviour
 {
     public float range = 10f;
     public float speed = 8f;
+    public int orientation = 1;
 
     private enum State { Fly, Collide, Explode };
     private State currentState;
@@ -16,17 +17,18 @@ public class FireballBehavior : MonoBehaviour
         Animation = GetComponentInChildren<FireballAnimation>();
         initialPosition = transform.position;
         currentState = State.Fly;
+        UpdateOrientation();
     }
 
     private void Update()
     {
-        if (currentState == State.Fly && transform.position.x < initialPosition.x - range)
+        if (currentState == State.Fly && transform.position.x*orientation < initialPosition.x*orientation - range)
         {
             currentState = State.Collide;
         }
         else if (currentState == State.Fly)
         {
-            transform.position += Vector3.left * speed * Time.deltaTime;
+            transform.position += orientation * speed * Time.deltaTime * Vector3.left;
         } 
         else if (currentState == State.Collide) 
         {
@@ -45,5 +47,12 @@ public class FireballBehavior : MonoBehaviour
         Animation.TriggerExplosionAnimation();
         yield return new WaitForSeconds(0.333f);  // Adjust this to match the explosion animation's duration
         Destroy(gameObject);
+    }
+
+    private void UpdateOrientation()
+    {
+        Vector3 scale = transform.localScale;
+        scale.x = orientation;
+        transform.localScale = scale;
     }
 }
