@@ -870,7 +870,6 @@ GameObject:
   - component: {fileID: 2033187445}
   - component: {fileID: 2033187444}
   - component: {fileID: 2033187443}
-  - component: {fileID: 2033187442}
   - component: {fileID: 2033187441}
   m_Layer: 0
   m_Name: CharacterRoot
@@ -992,24 +991,6 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 0
   m_ApplyActiveColorSpace: 1
---- !u!114 &2033187442
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2033187440}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8516d788af220b34d864fbcda2a3ec3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  chrWalk: {fileID: 0}
-  chrTransform: {fileID: 391757724}
-  trailRenderer: {fileID: 2033187441}
-  dashPower: 15
-  dashTime: 0.2
-  dashCooldown: 2
 --- !u!114 &2033187443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1023,7 +1004,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chrWalk: {fileID: 0}
+  chrTransform: {fileID: 391757724}
+  trailRenderer: {fileID: 2033187441}
   jumpHeight: 2.71828
+  dashPower: 10
+  dashTime: 0.2
+  dashCooldown: 2
 --- !u!114 &2033187444
 MonoBehaviour:
   m_ObjectHideFlags: 0

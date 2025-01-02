@@ -1,25 +1,49 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class JumpScript : MonoBehaviour
 {
     public Animator chrWalk;
-    public float jumpHeight = 2.71828f; // Desired jump height
+    public Transform chrTransform;
+    public TrailRenderer trailRenderer;
     private Rigidbody rb; // Reference to the Rigidbody component
-    private bool isGrounded = true; // Check if the player is grounded
+    private enum State { Jumping, AirDashing, GroundDashing, Grounded};
+    private State currentState;
+
+    public float jumpHeight = 2.71828f; // Desired jump height
     private bool doubleJump = false;
+
+    private bool dashAvailable = true;
+    public float dashPower = 10f;
+    public float dashTime = 0.2f;
+    public float dashCooldown = 1f;
 
     void Start()
     {
         // Get the Rigidbody component attached to this GameObject
         rb = GetComponent<Rigidbody>();
         chrWalk = GetComponentInChildren<Animator>();
+        currentState = State.Grounded;
     }
 
     void Update()
     {
+        if (currentState == State.AirDashing | currentState == State.GroundDashing)
+        {
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.C) && dashAvailable)
+        {
+            chrWalk.SetBool("isDashing", true);
+            StartCoroutine(Dash());
+        }
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (isGrounded)
+            if (currentState == State.Grounded)
             {
                 chrWalk.SetBool("jumping", true);
                 Jump(jumpHeight);
@@ -42,7 +66,24 @@ public class JumpScript : MonoBehaviour
         // Apply the jump force directly
         rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
 
-        isGrounded = false; // Player is no longer grounded after the jump
+        currentState = State.Jumping; // Player is no longer grounded after the jump
+    }
+    IEnumerator Dash()
+    {
+        dashAvailable = false;
+        currentState = (currentState == State.Grounded) ? State.GroundDashing : State.AirDashing;
+        rb.velocity = new Vector3(Math.Sign(chrTransform.localScale.x) * dashPower, 0f, 0f);
+        rb.useGravity = false;
+        trailRenderer.emitting = true;
+
+        yield return new WaitForSeconds(dashTime);
+
+        rb.useGravity = true;
+        trailRenderer.emitting = false;
+        currentState = (currentState == State.GroundDashing) ? State.Grounded : State.Jumping;
+        chrWalk.SetBool("isDashing", false);
+        yield return new WaitForSeconds(dashCooldown);
+        dashAvailable = true;
     }
 
     void OnCollisionEnter(Collision collision)
@@ -50,7 +91,7 @@ public class JumpScript : MonoBehaviour
         // Check if the player touches the ground
         if (collision.gameObject.CompareTag("Ground"))
         {
-            isGrounded = true;
+            currentState = State.Grounded;
             chrWalk.SetBool("jumping", false);
             chrWalk.SetBool("doubleJump", false);
         }

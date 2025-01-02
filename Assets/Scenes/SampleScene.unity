@@ -241,7 +241,6 @@ GameObject:
   - component: {fileID: 651368497}
   - component: {fileID: 651368500}
   - component: {fileID: 651368501}
-  - component: {fileID: 651368502}
   - component: {fileID: 651368503}
   m_Layer: 0
   m_Name: CharacterRoot
@@ -345,23 +344,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chrWalk: {fileID: 0}
-  jumpHeight: 2.71828
---- !u!114 &651368502
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 651368496}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8516d788af220b34d864fbcda2a3ec3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  chrWalk: {fileID: 0}
   chrTransform: {fileID: 1016662645}
   trailRenderer: {fileID: 651368503}
-  dashPower: 15
+  jumpHeight: 2.71828
+  dashPower: 10
   dashTime: 0.2
   dashCooldown: 2
 --- !u!96 &651368503
