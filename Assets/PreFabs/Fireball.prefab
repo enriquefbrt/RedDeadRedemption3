@@ -46,9 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93886445252ec96489c6f9a448b589dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isFlying: 0
-  flightTime: 2
   range: 10
+  speed: 8
 --- !u!65 &5796423237374153345
 BoxCollider:
   m_ObjectHideFlags: 0

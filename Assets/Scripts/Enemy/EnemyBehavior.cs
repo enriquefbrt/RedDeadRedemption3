@@ -1,19 +1,18 @@
 using UnityEngine;
-using System.Collections;   //PARA AQUI
+using System.Collections;     
 
-public class EnemyBehaviour : MonoBehaviour
+public class EnemyBehavior : MonoBehaviour
 {
     public float speed = 1f;      
     public float amplitude = 3f;  
-    public float attackCooldown = 2f; 
+    public float attackCooldown = 2f;
+    public GameObject fireballPrefab;
 
     private enum EnemyState { Fly, Cooldown, Dying }
     private EnemyState currentState;
-
-    private EnemyAnimation enemyAnimation;
     private Vector3 startPosition;
+    private EnemyAnimation enemyAnimation;
 
-    public GameObject fireball;
 
     void Start()
     {
@@ -28,22 +27,21 @@ public class EnemyBehaviour : MonoBehaviour
             transform.position = new Vector3(newX, transform.position.y, transform.position.z);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player") && currentState == EnemyState.Fly)
+        if (currentState == EnemyState.Fly && other.CompareTag("Player"))
         {
             currentState = EnemyState.Cooldown;
-            StartCoroutine(HandleAttack());
+            StartCoroutine(Attack());
         }
 
     }
 
-    private IEnumerator HandleAttack()
+    private IEnumerator Attack()
     {
         enemyAnimation.TriggerAttackAnimation();
         yield return new WaitForSeconds(enemyAnimation.GetAttackAnimationLength()/2); //middle of animation
-        GameObject newFireball = Instantiate(fireball, transform.position, Quaternion.identity);
-        newFireball.transform.SetParent(transform);
+        Instantiate(fireballPrefab, transform.position - new Vector3(0.7f, 0f, 0f), Quaternion.identity);
         yield return new WaitForSeconds(attackCooldown);
         currentState = EnemyState.Fly;
     }

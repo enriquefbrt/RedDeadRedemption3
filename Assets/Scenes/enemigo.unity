@@ -397,7 +397,7 @@ MonoBehaviour:
   speed: 1
   amplitude: 3
   attackCooldown: 2
-  fireball: {fileID: 2732654494112040920, guid: 1e4f1d8d32d89c448a20cc21c9185021, type: 3}
+  fireballPrefab: {fileID: 2732654494112040920, guid: 1e4f1d8d32d89c448a20cc21c9185021, type: 3}
 --- !u!1 &391757723
 GameObject:
   m_ObjectHideFlags: 0
