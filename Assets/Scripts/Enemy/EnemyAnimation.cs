@@ -14,6 +14,16 @@ public class EnemyAnimation : MonoBehaviour
         animator.SetTrigger("AttackTrigger");
     }
 
+    public void TriggerHurtAnimation()
+    {
+        animator.SetTrigger("HurtTrigger");
+    }
+
+    public void TriggerDeathAnimation()
+    {
+        animator.SetTrigger("DeathTrigger");
+    }
+
     public float GetAttackAnimationLength()
     {
         var clips = animator.runtimeAnimatorController.animationClips;
