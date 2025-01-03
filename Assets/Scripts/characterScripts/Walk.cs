@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -76,5 +77,10 @@ public class Walk : MonoBehaviour
 
         if (_isFlipped) { gunTransform.Translate(new Vector3(-2*_gunX, 0, 0)); }
         else { gunTransform.Translate(new Vector3(2 * _gunX, 0, 0)); }
+    }
+
+    public int GetCharacterOrientation(Transform chrTransform)
+    {
+        return Math.Sign(chrTransform.localScale.x);
     }
 }

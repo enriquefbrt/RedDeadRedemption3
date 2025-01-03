@@ -8,6 +8,7 @@ public class JumpScript : MonoBehaviour
     public Animator chrWalk;
     public Transform chrTransform;
     public TrailRenderer trailRenderer;
+    public Walk walkClass;
     private Rigidbody rb; // Reference to the Rigidbody component
     private enum State { Jumping, AirDashing, GroundDashing, Grounded};
     private State currentState;
@@ -72,7 +73,8 @@ public class JumpScript : MonoBehaviour
     {
         dashAvailable = false;
         currentState = (currentState == State.Grounded) ? State.GroundDashing : State.AirDashing;
-        rb.velocity = new Vector3(Math.Sign(chrTransform.localScale.x) * dashPower, 0f, 0f);
+        int orientation = walkClass.GetCharacterOrientation(chrTransform);
+        rb.velocity = new Vector3(orientation * dashPower, 0f, 0f);
         rb.useGravity = false;
         trailRenderer.emitting = true;
 
