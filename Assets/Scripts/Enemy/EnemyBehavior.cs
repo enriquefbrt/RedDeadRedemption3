@@ -6,7 +6,7 @@ using UnityEngine.UIElements;
 public class EnemyBehavior : MonoBehaviour
 {
     public float speed = 5f;  
-    public float amplitude = 3f;
+    public float amplitude = 1.5f;
     public float amplitudeY = 0.07f;
     public float frequence = 0.7f;
     public float frequenceY = 3f;
@@ -14,73 +14,107 @@ public class EnemyBehavior : MonoBehaviour
     public int maxHealth;
     public int orientation = 1;
     public float pursuitThreshold = 5;
-    public Vector3 fireballOffset = new Vector3(0.7f, 0f, 0f);
+    public Vector3 fireballOffset = new(0.7f, 0f, 0f);
     public GameObject fireballPrefab;
 
-    private enum EnemyState { Fly, Cooldown, Dying };
-    private EnemyState currentState;
-    private int health;
-    public bool isFollowing= false;
+    private enum AtackState { Ready, Cooldown };
+    private AtackState atackState = AtackState.Ready;
+    private enum MovementState { Idle, Following } 
+    private MovementState movementState = MovementState.Idle;
+    private enum LifeState { Alive, Dying, Dead };
+    private LifeState lifeState = LifeState.Alive;
+    public int health;
     private Transform target;
-    private Vector3 startPosition;
     private EnemyAnimation enemyAnimation;
-    private float timeOffset = 0f;
+    private float timeOffset;
 
 
     void Start()
     {
-        currentState = EnemyState.Fly;
         health = maxHealth;
-        startPosition = transform.position;
+        timeOffset = Time.time;
         enemyAnimation = GetComponentInChildren<EnemyAnimation>();
     }
 
     void Update()
     {
-        if (isFollowing)
+        if (lifeState == LifeState.Alive)
         {
-            Vector3 direction = target.position - transform.position;
-            if (System.Math.Abs(direction.x) > 8)
+            HandleMovement();
+            UpdateOrientation();
+            if (health <= 0)
             {
-                isFollowing = false;
-                startPosition = transform.position;
+                lifeState = LifeState.Dying;
+            }
+        }
+        else if (lifeState == LifeState.Dying)
+        {
+            StartCoroutine(Die());
+            lifeState = LifeState.Dead;
+        }
+    }
+
+    public void HandleRangeStay(Collider other)
+    {
+        if (lifeState == LifeState.Alive && other.CompareTag("Player"))
+        {
+            float distance = transform.position.x - other.transform.position.x;
+            orientation = System.Math.Sign(distance);
+            if (movementState == MovementState.Idle && System.Math.Abs(distance) < pursuitThreshold)
+            {
+                movementState = MovementState.Following;
+                target = other.transform;
+            }
+            if (atackState == AtackState.Ready)
+            {
+                StartCoroutine(Attack());
+                atackState = AtackState.Cooldown;
+            }
+        }
+    }
+
+    public void HandleBodyCollision(Collider other)
+    {
+        if (lifeState == LifeState.Alive && other.CompareTag("Player"))
+        {
+            health -= 1;
+            if (health > 0)
+            {
+                enemyAnimation.TriggerHurtAnimation();
+            }
+        }
+    }
+
+    private void HandleMovement()
+    {
+        Vector3 position = transform.position;
+        if (movementState == MovementState.Following)
+        {
+            float directionX = target.position.x - transform.position.x;
+            if (System.Math.Abs(directionX) > 8)
+            {
+                movementState = MovementState.Idle;
                 timeOffset = Time.time;
             }
-            else
+            else if (System.Math.Abs(directionX) > 2)
             {
-                orientation = -1 * System.Math.Sign(direction.x);
-                direction.Normalize();
-                transform.position += direction * speed * Time.deltaTime;
+                position.x -= orientation * speed * Time.deltaTime;
+                //position.y = target.position.y;
             }
         }
         else
         {
-            float newX = startPosition.x + Mathf.Sin((Time.time - timeOffset)*frequence) * amplitude * orientation * (-1);
-            transform.position = new Vector3(newX, transform.position.y, transform.position.z);
+            position.x = transform.position.x - Mathf.Cos((Time.time - timeOffset) * frequence) * amplitude * orientation * Time.deltaTime;  //sin(x) = integral(cos(x))
         }
-        float newY = startPosition.y + Mathf.Sin((Time.time - timeOffset) * frequenceY) * amplitudeY * orientation * (-1);
-        transform.position = new Vector3(transform.position.x, newY, transform.position.z);
-        UpdateOrientation();
+        position.y -= Mathf.Cos((Time.time - timeOffset) * frequenceY) * amplitudeY * orientation * Time.deltaTime;
+        transform.position = position;
     }
 
-    private void OnTriggerStay(Collider other)
+    private void UpdateOrientation()
     {
-        if (other.CompareTag("Player"))
-        {
-            float distance = transform.position.x - other.transform.position.x;
-            orientation = System.Math.Sign(distance);
-            if (System.Math.Abs(distance) < pursuitThreshold)
-            {
-                isFollowing = true;
-                target = other.transform;
-            }
-            if (currentState == EnemyState.Fly)
-            {
-                StartCoroutine(Attack());
-                currentState = EnemyState.Cooldown;
-            }
-        }
-
+        Vector3 scale = transform.localScale;
+        scale.x = orientation;
+        transform.localScale = scale;
     }
 
     private IEnumerator Attack()
@@ -91,14 +125,20 @@ public class EnemyBehavior : MonoBehaviour
         FireballBehavior fireballBehavior = fireball.GetComponent<FireballBehavior>();
         fireballBehavior.orientation = orientation;
         yield return new WaitForSeconds(attackCooldown);
-        currentState = EnemyState.Fly;
+        atackState = AtackState.Ready;
     }
 
-    private void UpdateOrientation()
+    private IEnumerator Hurt()
     {
-        Vector3 scale = transform.localScale;
-        scale.x = orientation;
-        transform.localScale = scale;
+        enemyAnimation.TriggerHurtAnimation();
+        yield return new WaitForSeconds(0.5f);
+    }
+
+    private IEnumerator Die()
+    {
+        enemyAnimation.TriggerDeathAnimation();
+        yield return new WaitForSeconds(0.5f);
+        Destroy(gameObject);
     }
 }
 
