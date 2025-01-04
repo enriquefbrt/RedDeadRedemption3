@@ -7,8 +7,7 @@ public class SlimeBehavior : MonoBehaviour
     public float maxHealth;
     public float movementRange;
     public float speed;
-
-
+    public GameObject BossPrefab;
 
     private enum State { Idle, Dying, Dead };
     private State state = State.Idle;
@@ -63,7 +62,11 @@ public class SlimeBehavior : MonoBehaviour
 
     private IEnumerator Transform()
     {
+        orientation = 1;
+        UpdateOrientation();
         animator.SetTrigger("TransformTrigger");
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(5f);
+        Instantiate(BossPrefab, transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
 }

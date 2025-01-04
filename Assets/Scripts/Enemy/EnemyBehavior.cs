@@ -21,7 +21,7 @@ public class EnemyBehavior : MonoBehaviour
     private AtackState atackState = AtackState.Ready;
     private enum MovementState { Idle, Following } 
     private MovementState movementState = MovementState.Idle;
-    private enum LifeState { Alive, Dying, Dead };
+    private enum LifeState { Alive, Hurt, Dying, Dead };
     private LifeState lifeState = LifeState.Alive;
     public int health;
     private Transform target;
@@ -80,7 +80,8 @@ public class EnemyBehavior : MonoBehaviour
             health -= 1;
             if (health > 0)
             {
-                enemyAnimation.TriggerHurtAnimation();
+                lifeState = LifeState.Hurt;
+                StartCoroutine(Hurt());
             }
         }
     }
@@ -132,6 +133,7 @@ public class EnemyBehavior : MonoBehaviour
     {
         enemyAnimation.TriggerHurtAnimation();
         yield return new WaitForSeconds(0.5f);
+        lifeState = LifeState.Alive;
     }
 
     private IEnumerator Die()
