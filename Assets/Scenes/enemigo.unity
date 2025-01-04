@@ -384,6 +384,7 @@ GameObject:
   - component: {fileID: 359657187}
   - component: {fileID: 359657186}
   - component: {fileID: 359657185}
+  - component: {fileID: 359657193}
   m_Layer: 0
   m_Name: TestGuy
   m_TagString: Player
@@ -643,6 +644,21 @@ Transform:
   - {fileID: 1963355951}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &359657193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359657184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d836ffc1e0b27c642b74b21ac3c6d5cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pushDirection: {x: -1, y: 0, z: 0}
+  pushForce: 10
+  cooldown: 1
 --- !u!1 &633772102
 GameObject:
   m_ObjectHideFlags: 0
@@ -1000,6 +1016,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1963355951}
   - component: {fileID: 1963355952}
+  - component: {fileID: 1963355953}
   m_Layer: 0
   m_Name: 2DCollision
   m_TagString: Player
@@ -1067,6 +1084,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.4, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1963355953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1963355950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b7d01a85829a1042a2bffb745accd75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
