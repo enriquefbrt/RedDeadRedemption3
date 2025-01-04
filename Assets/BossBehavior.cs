@@ -8,56 +8,89 @@ public class BossBehavior : MonoBehaviour
     public GameObject target;
     public float speed;
     public float smashThreshold;
+    public float castThreshold;
+    public float castTime;
+    public float maxHealth;
+    public float projectileOffset;
+    public GameObject projectilePrefab;
 
-    private enum MovementState { Idle, Melee, Smash, Fire, Cooldown };
+    private enum MovementState { Idle, Melee, Smash, Fire, Cooldown, Cast, Hurt };
     private MovementState movementState = MovementState.Idle;
+    private enum LifeState { Alive, Dead }
+    private LifeState lifeState = LifeState.Alive;
     private int orientation = 1;
+    public float health;
+    public float nextCastTime = 0f;
     private Animator animator;
+   
 
 
     void Start()
     {
         animator = GetComponentInChildren<Animator>();
-        target = GameObject.Find("CharacterRoot");
+        target = GameObject.Find("TestGuy");
+        health = maxHealth;
     }
 
     
     void Update()
     {
-        if (movementState == MovementState.Idle && System.Math.Abs(transform.position.x - target.transform.position.x) >= smashThreshold)
+        if (lifeState == LifeState.Alive)
         {
-            HandleMovement();
-            UpdateOrientation();
-        }
-        else if (movementState == MovementState.Idle)
-        {
-            float k = Random.Range(0f, 3f);
-            if (k >= 2)
+            if (movementState == MovementState.Idle && System.Math.Abs(transform.position.x - target.transform.position.x) >= castThreshold && nextCastTime <= Time.time)
             {
-                movementState = MovementState.Melee;
+                movementState = MovementState.Cast;
             }
-            else if (k >= 1)
+            else if (movementState == MovementState.Idle && System.Math.Abs(transform.position.x - target.transform.position.x) >= smashThreshold)
             {
-                movementState = MovementState.Smash;
-            }else
+                HandleMovement();
+                UpdateOrientation();
+            }
+            else if (movementState == MovementState.Idle)
             {
-                movementState=MovementState.Fire;
+                float k = Random.Range(0f, 3f);
+                if (k >= 2)
+                {
+                    movementState = MovementState.Melee;
+                }
+                else if (k >= 1)
+                {
+                    movementState = MovementState.Smash;
+                }
+                else
+                {
+                    movementState = MovementState.Fire;
+                }
+            }
+            else if (movementState == MovementState.Smash)
+            {
+                StartCoroutine(Smash());
+                movementState = MovementState.Cooldown;
+            }
+            else if (movementState == MovementState.Melee)
+            {
+                StartCoroutine(Melee());
+                movementState = MovementState.Cooldown;
+            }
+            else if (movementState == MovementState.Fire)
+            {
+                StartCoroutine(Fire());
+                movementState = MovementState.Cooldown;
+            }
+            else if (movementState == MovementState.Cast)
+            {
+                StartCoroutine(Cast());
+                nextCastTime = Time.time + castTime;
+                movementState = MovementState.Cooldown;
             }
         }
-        else if (movementState == MovementState.Smash)
+    }
+
+    public void OnHit(Collider2D other)
+    {
+        if (movementState == MovementState.Idle && other.CompareTag("Bullet"))
         {
-            StartCoroutine(Smash());
-            movementState = MovementState.Cooldown;
-        }
-        else if (movementState == MovementState.Melee)
-        {
-            StartCoroutine(Melee());
-            movementState= MovementState.Cooldown;
-        }
-        else if (movementState == MovementState.Fire)
-        {
-            StartCoroutine(Fire());
-            movementState = MovementState.Cooldown;
+            StartCoroutine(Hurt());
         }
     }
 
@@ -94,5 +127,41 @@ public class BossBehavior : MonoBehaviour
         animator.SetTrigger("FireTrigger");
         yield return new WaitForSeconds(2.5f);
         movementState = MovementState.Idle;
+    }
+
+    private IEnumerator Cast()
+    {
+        animator.SetTrigger("CastTrigger");
+        yield return new WaitForSeconds(0.5f); //Half animation
+        foreach (float y in new float[] { 0.5f, 1.5f, 4f, 5f}) 
+        {
+            float height = Random.Range(0.2f, 5f); 
+            Vector3 spawnPoint = new(transform.position.x - projectileOffset*orientation, height, transform.position.z);
+            GameObject projectile = Instantiate(projectilePrefab, spawnPoint, Quaternion.identity);
+            DemonProyectileBehavior demonProyectileBehavior = projectile.GetComponent<DemonProyectileBehavior>();
+            demonProyectileBehavior.orientation = orientation;
+            yield return new WaitForSeconds(0.025f); //Rest of animation
+        }
+        yield return new WaitForSeconds(0.5f); //Rest of animation
+        movementState = MovementState.Idle;
+    }
+
+    private IEnumerator Hurt()
+    {
+        health -= 1;
+        movementState = MovementState.Hurt;
+        animator.SetTrigger("HurtTrigger");
+        yield return new WaitForSeconds(0.7f);
+        if (health > 0)
+        {
+            movementState = MovementState.Idle;
+        }
+        else
+        {
+            lifeState = LifeState.Dead;
+            animator.SetTrigger("DeathTrigger");
+            yield return new WaitForSeconds(3.2f);
+            Destroy(gameObject);
+        }
     }
 }

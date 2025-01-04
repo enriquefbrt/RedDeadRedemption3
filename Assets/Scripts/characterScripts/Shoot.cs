@@ -12,7 +12,7 @@ public class Shoot : MonoBehaviour
 
     public float x = 1.23f;
     public float y = 0.08f;
-    private float normalCooldown = 0.5f;
+    public float normalCooldown = 2f;
     private float magicCooldown = 2f;
     private float currentNormalCooldown = 0.5f;
     private float currentMagicCooldown = 1f;
