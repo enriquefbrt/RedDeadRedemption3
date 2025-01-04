@@ -501,6 +501,8 @@ MonoBehaviour:
   chrTransform: {fileID: 1016662645}
   x: 1.23
   y: 0.08
+  normalCooldown: 0.5
+  magicCooldown: 1
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
