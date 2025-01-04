@@ -409,7 +409,7 @@ MonoBehaviour:
   chrTransform: {fileID: 955491490}
   x: 1.23
   y: 0.08
-  normalCooldown: 2
+  normalCooldown: 1
 --- !u!114 &359657186
 MonoBehaviour:
   m_ObjectHideFlags: 0
