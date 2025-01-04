@@ -11,7 +11,7 @@ public class Range : MonoBehaviour
         parentScript = GetComponentInParent<EnemyBehavior>();
     }
 
-    private void OnTriggerStay(Collider other)
+    private void OnTriggerStay2D(Collider2D other)
     {
         parentScript.HandleRangeStay(other);
     }

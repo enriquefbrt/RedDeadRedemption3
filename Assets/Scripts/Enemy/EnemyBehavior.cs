@@ -54,7 +54,7 @@ public class EnemyBehavior : MonoBehaviour
         }
     }
 
-    public void HandleRangeStay(Collider other)
+    public void HandleRangeStay(Collider2D other)
     {
         if (lifeState == LifeState.Alive && other.CompareTag("Player"))
         {
@@ -73,9 +73,9 @@ public class EnemyBehavior : MonoBehaviour
         }
     }
 
-    public void HandleBodyCollision(Collider other)
+    public void HandleBodyCollision(Collider2D other)
     {
-        if (lifeState == LifeState.Alive && other.CompareTag("Player"))
+        if (lifeState == LifeState.Alive && other.CompareTag("Bullet"))
         {
             health -= 1;
             if (health > 0)

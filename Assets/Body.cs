@@ -11,7 +11,7 @@ public class Body : MonoBehaviour
         parentScript = GetComponentInParent<EnemyBehavior>();
     }
 
-    private void OnTriggerEnter (Collider other)
+    private void OnTriggerEnter2D (Collider2D other)
     {
         parentScript.HandleBodyCollision(other);
     }
