@@ -657,8 +657,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pushDirection: {x: -1, y: 0, z: 0}
-  pushForce: 10
-  cooldown: 1
+  pushForce: 30
 --- !u!1 &633772102
 GameObject:
   m_ObjectHideFlags: 0
