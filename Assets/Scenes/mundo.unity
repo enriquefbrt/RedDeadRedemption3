@@ -122,6 +122,37 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &38907125
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 38907126}
+  m_Layer: 0
+  m_Name: Start Platform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &38907126
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38907125}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1932466958}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &84675072
 GameObject:
   m_ObjectHideFlags: 0
@@ -2382,33 +2413,34 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1477343223}
-  - {fileID: 1540044888}
-  - {fileID: 1286941987}
-  - {fileID: 1905864093}
-  - {fileID: 1916555455}
-  - {fileID: 423744775}
-  - {fileID: 1978208019}
-  - {fileID: 2031043873}
-  - {fileID: 1528168465}
-  - {fileID: 1719748778}
-  - {fileID: 840425389}
-  - {fileID: 886234424}
-  - {fileID: 1872385544}
-  - {fileID: 593421189}
-  - {fileID: 1845323735}
-  - {fileID: 918398423}
-  - {fileID: 2030481874}
-  - {fileID: 663567386}
-  - {fileID: 1667702665}
-  - {fileID: 445296585}
-  - {fileID: 1299342582}
-  - {fileID: 1797648749}
-  - {fileID: 833165239}
-  - {fileID: 1396743679}
-  - {fileID: 1815693589}
-  - {fileID: 2099572298}
   - {fileID: 1497556568}
+  - {fileID: 2099572298}
+  - {fileID: 1815693589}
+  - {fileID: 1396743679}
+  - {fileID: 833165239}
+  - {fileID: 1797648749}
+  - {fileID: 1299342582}
+  - {fileID: 445296585}
+  - {fileID: 1667702665}
+  - {fileID: 663567386}
+  - {fileID: 2030481874}
+  - {fileID: 918398423}
+  - {fileID: 1845323735}
+  - {fileID: 593421189}
+  - {fileID: 1872385544}
+  - {fileID: 886234424}
+  - {fileID: 840425389}
+  - {fileID: 1719748778}
+  - {fileID: 1528168465}
+  - {fileID: 2031043873}
+  - {fileID: 1978208019}
+  - {fileID: 423744775}
+  - {fileID: 1916555455}
+  - {fileID: 1905864093}
+  - {fileID: 1286941987}
+  - {fileID: 1540044888}
+  - {fileID: 1477343223}
+  - {fileID: 38907126}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1978208018
