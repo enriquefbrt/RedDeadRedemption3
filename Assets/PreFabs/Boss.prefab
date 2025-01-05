@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 6413820348557922450}
   m_Layer: 0
   m_Name: BossPhysics
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

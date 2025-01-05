@@ -24,5 +24,6 @@ public class BulletManager : MonoBehaviour
     void Update()
     {
         transform.Translate(Vector3.right * orientation * speed * Time.deltaTime);
+        Destroy(gameObject, 1f);
     }
 }
