@@ -23,7 +23,9 @@ public class BulletManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector3.right * orientation * speed * Time.deltaTime);
+        Vector3 translatePoint = Vector3.right * orientation * speed * Time.deltaTime;
+        translatePoint.z = 0f;
+        transform.Translate(translatePoint);
         Destroy(gameObject, 1f);
     }
 }

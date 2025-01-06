@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.TextCore.Text;
 using System;
 
-public class BulletCollisionManager : MonoBehaviour
+public class MagicBulletCollisionManager : MonoBehaviour
 {
     private GameObject characterRoot;
     private GameObject character;
@@ -17,9 +17,10 @@ public class BulletCollisionManager : MonoBehaviour
         chrTransform = character.transform;
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Wall"))
+        Debug.Log("hola");
+        if (other.CompareTag("Ground"))
         {
             Vector3 impactPoint = other.ClosestPoint(transform.position);
             int impactOrientation = Math.Sign(chrTransform.localScale.x);

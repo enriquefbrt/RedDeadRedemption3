@@ -9,11 +9,11 @@ public class JumpScript : MonoBehaviour
     public Transform chrTransform;
     public TrailRenderer trailRenderer;
     public Walk walkClass;
-    private Rigidbody rb; // Reference to the Rigidbody component
+    private Rigidbody2D rb;
     private enum State { Jumping, AirDashing, GroundDashing, Grounded};
     private State currentState;
 
-    public float jumpHeight = 2.71828f; // Desired jump height
+    public float jumpHeight = 2.71828f;
     private bool doubleJump = false;
 
     private bool dashAvailable = true;
@@ -23,15 +23,14 @@ public class JumpScript : MonoBehaviour
 
     void Start()
     {
-        // Get the Rigidbody component attached to this GameObject
-        rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody2D>();
         chrWalk = GetComponentInChildren<Animator>();
         currentState = State.Grounded;
     }
 
     void Update()
     {
-        if (currentState == State.AirDashing | currentState == State.GroundDashing)
+        if (currentState == State.AirDashing || currentState == State.GroundDashing)
         {
             return;
         }
@@ -59,28 +58,27 @@ public class JumpScript : MonoBehaviour
         }
     }
 
-    void Jump(float jumpHeight)
+    private void Jump(float jumpHeight)
     {
-        // Calculate the required jump force to reach the desired height
+        // rb.velocity = new Vector2(rb.velocity.x, 0);
         float jumpForce = Mathf.Sqrt(2 * Mathf.Abs(Physics.gravity.y) * jumpHeight);
-
-        // Apply the jump force directly
-        rb.velocity = new Vector3(rb.velocity.x, jumpForce, rb.velocity.z);
-
-        currentState = State.Jumping; // Player is no longer grounded after the jump
+        rb.velocity = new Vector2(0f, jumpForce);
+        currentState = State.Jumping;
     }
     IEnumerator Dash()
     {
         dashAvailable = false;
         currentState = (currentState == State.Grounded) ? State.GroundDashing : State.AirDashing;
+        float originalGravity = rb.gravityScale;
+        rb.gravityScale = 0f;
         int orientation = walkClass.GetCharacterOrientation(chrTransform);
-        rb.velocity = new Vector3(orientation * dashPower, 0f, 0f);
-        rb.useGravity = false;
+        rb.velocity = new Vector2(orientation * dashPower, 0f);
         trailRenderer.emitting = true;
 
         yield return new WaitForSeconds(dashTime);
 
-        rb.useGravity = true;
+        rb.gravityScale = originalGravity;
+        rb.velocity = new Vector2(0f, rb.velocity.y);
         trailRenderer.emitting = false;
         currentState = (currentState == State.GroundDashing) ? State.Grounded : State.Jumping;
         chrWalk.SetBool("isDashing", false);
@@ -88,7 +86,7 @@ public class JumpScript : MonoBehaviour
         dashAvailable = true;
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter2D(UnityEngine.Collision2D collision)
     {
         // Check if the player touches the ground
         if (collision.gameObject.CompareTag("Ground"))
@@ -96,6 +94,16 @@ public class JumpScript : MonoBehaviour
             currentState = State.Grounded;
             chrWalk.SetBool("jumping", false);
             chrWalk.SetBool("doubleJump", false);
+        }
+    }
+
+    void OnCollisionExit2D(UnityEngine.Collision2D collision)
+    {
+        // Check if the player touches the ground
+        if (currentState == State.Grounded)
+        {
+            currentState = State.Jumping;
+            doubleJump = true;
         }
     }
 }
