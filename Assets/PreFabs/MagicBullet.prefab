@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3359848854883577439}
   - component: {fileID: 7486705234363710076}
   - component: {fileID: 4206680371209061575}
-  - component: {fileID: 1831666920845419060}
+  - component: {fileID: -1312329144123936316}
   - component: {fileID: 682649368553588387}
   - component: {fileID: -1978512568297690420}
   m_Layer: 0
@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 30
---- !u!114 &1831666920845419060
+--- !u!114 &-1312329144123936316
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -113,6 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a5c800746473464abeaa235507a26a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isBulletMagic: 1
 --- !u!50 &682649368553588387
 Rigidbody2D:
   serializedVersion: 4
@@ -169,7 +170,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
