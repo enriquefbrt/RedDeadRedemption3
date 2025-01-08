@@ -39,7 +39,7 @@ public class FireballBehavior : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (currentState == State.Fly && !other.CompareTag("EnemyBody") && !other.CompareTag("EnemyRange") && !other.CompareTag("Player")) { currentState = State.Collide; }
+        if (currentState == State.Fly && other.CompareTag("PlayerHit")) { currentState = State.Collide; }
     }
 
     private IEnumerator DestroyFireball()

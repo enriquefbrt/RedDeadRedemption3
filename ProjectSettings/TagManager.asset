@@ -12,6 +12,7 @@ TagManager:
   - Boss
   - EnemyBody
   - EnemyRange
+  - PlayerHit
   layers:
   - Default
   - TransparentFX
