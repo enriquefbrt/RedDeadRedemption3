@@ -8,24 +8,20 @@ public class BulletCollisionManager : MonoBehaviour
 {
     [SerializeField] private bool isBulletMagic;
     private GameObject characterRoot;
-    private GameObject character;
-    private Transform chrTransform;
 
     void Start()
     {
-        character = GameObject.FindWithTag("ChrSprite");
         characterRoot = GameObject.FindWithTag("Player");
-        chrTransform = character.transform;
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Ground"))
+        if (other.CompareTag("Ground") || other.CompareTag("Wall"))
         {
             if (isBulletMagic)
             {
                 Vector2 impactPoint = other.ClosestPoint(transform.position);
-                int impactOrientation = Math.Sign(chrTransform.localScale.x);
+                int impactOrientation = Math.Sign(impactPoint.x - characterRoot.transform.position.x);
                 characterRoot.transform.position = new Vector3(impactPoint.x - 1 * impactOrientation, impactPoint.y, 0f);
             }
             Destroy(gameObject);

@@ -60,10 +60,9 @@ public class JumpScript : MonoBehaviour
 
     private void Jump(float jumpHeight)
     {
-        // rb.velocity = new Vector2(rb.velocity.x, 0);
+        currentState = State.Jumping;
         float jumpForce = Mathf.Sqrt(2 * Mathf.Abs(Physics.gravity.y) * jumpHeight);
         rb.velocity = new Vector2(0f, jumpForce);
-        currentState = State.Jumping;
     }
     IEnumerator Dash()
     {
@@ -71,6 +70,8 @@ public class JumpScript : MonoBehaviour
         currentState = (currentState == State.Grounded) ? State.GroundDashing : State.AirDashing;
         float originalGravity = rb.gravityScale;
         rb.gravityScale = 0f;
+        int originalLayer = gameObject.layer;
+        gameObject.layer = LayerMask.NameToLayer("NoCollideWallsMonsters");
         int orientation = walkClass.GetCharacterOrientation(chrTransform);
         rb.velocity = new Vector2(orientation * dashPower, 0f);
         trailRenderer.emitting = true;
@@ -78,6 +79,7 @@ public class JumpScript : MonoBehaviour
         yield return new WaitForSeconds(dashTime);
 
         rb.gravityScale = originalGravity;
+        gameObject.layer = originalLayer;
         rb.velocity = new Vector2(0f, rb.velocity.y);
         trailRenderer.emitting = false;
         currentState = (currentState == State.GroundDashing) ? State.Grounded : State.Jumping;
@@ -88,7 +90,6 @@ public class JumpScript : MonoBehaviour
 
     void OnCollisionEnter2D(UnityEngine.Collision2D collision)
     {
-        // Check if the player touches the ground
         if (collision.gameObject.CompareTag("Ground"))
         {
             currentState = State.Grounded;
@@ -99,11 +100,13 @@ public class JumpScript : MonoBehaviour
 
     void OnCollisionExit2D(UnityEngine.Collision2D collision)
     {
-        // Check if the player touches the ground
-        if (currentState == State.Grounded)
+        if (collision.gameObject.CompareTag("Ground"))
         {
-            currentState = State.Jumping;
-            doubleJump = true;
+            if (currentState == State.Grounded)
+            {
+                currentState = State.Jumping;
+                doubleJump = true;
+            }
         }
     }
 }
