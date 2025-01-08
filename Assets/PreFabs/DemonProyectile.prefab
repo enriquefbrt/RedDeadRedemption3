@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2427437022236466536}
   - component: {fileID: 7962164226442418231}
   - component: {fileID: 7382830511544923776}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DemonProyectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}

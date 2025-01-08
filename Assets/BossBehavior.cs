@@ -14,10 +14,8 @@ public class BossBehavior : MonoBehaviour
     public float projectileOffset;
     public GameObject projectilePrefab;
 
-    private enum MovementState { Idle, Melee, Smash, Fire, Cooldown, Cast, Hurt };
-    private MovementState movementState = MovementState.Idle;
-    private enum LifeState { Alive, Dead }
-    private LifeState lifeState = LifeState.Alive;
+    private enum State { Idle, Melee, Smash, Fire, Cooldown, Cast, Hurt, Dead };
+    private State state = State.Idle;
     private int orientation = 1;
     public float health;
     public float nextCastTime = 0f;
@@ -33,65 +31,63 @@ public class BossBehavior : MonoBehaviour
 
     private void Start() {
         target = GameObject.Find("CharacterRoot");
+        UpdateOrientation();
     }
 
 
     void Update()
     {
-        if (lifeState == LifeState.Alive)
+        if (state == State.Idle && System.Math.Abs(transform.position.x - target.transform.position.x) >= castThreshold && nextCastTime <= Time.time)
         {
-            if (movementState == MovementState.Idle && System.Math.Abs(transform.position.x - target.transform.position.x) >= castThreshold && nextCastTime <= Time.time)
+            state = State.Cast;
+        }
+        else if (state == State.Idle && System.Math.Abs(transform.position.x - target.transform.position.x) >= smashThreshold)
+        {
+            HandleMovement();
+            UpdateOrientation();
+        }
+        else if (state == State.Idle)
+        {
+            float k = Random.Range(0f, 3f);
+            if (k >= 2)
             {
-                movementState = MovementState.Cast;
+                state = State.Melee;
             }
-            else if (movementState == MovementState.Idle && System.Math.Abs(transform.position.x - target.transform.position.x) >= smashThreshold)
+            else if (k >= 1)
             {
-                HandleMovement();
-                UpdateOrientation();
+                state = State.Smash;
             }
-            else if (movementState == MovementState.Idle)
+            else
             {
-                float k = Random.Range(0f, 3f);
-                if (k >= 2)
-                {
-                    movementState = MovementState.Melee;
-                }
-                else if (k >= 1)
-                {
-                    movementState = MovementState.Smash;
-                }
-                else
-                {
-                    movementState = MovementState.Fire;
-                }
-            }
-            else if (movementState == MovementState.Smash)
-            {
-                StartCoroutine(Smash());
-                movementState = MovementState.Cooldown;
-            }
-            else if (movementState == MovementState.Melee)
-            {
-                StartCoroutine(Melee());
-                movementState = MovementState.Cooldown;
-            }
-            else if (movementState == MovementState.Fire)
-            {
-                StartCoroutine(Fire());
-                movementState = MovementState.Cooldown;
-            }
-            else if (movementState == MovementState.Cast)
-            {
-                StartCoroutine(Cast());
-                nextCastTime = Time.time + castTime;
-                movementState = MovementState.Cooldown;
+                state = State.Fire;
             }
         }
+        else if (state == State.Smash)
+        {
+            StartCoroutine(Smash());
+            state = State.Cooldown;
+        }
+        else if (state == State.Melee)
+        {
+            StartCoroutine(Melee());
+            state = State.Cooldown;
+        }
+        else if (state == State.Fire)
+        {
+            StartCoroutine(Fire());
+            state = State.Cooldown;
+        }
+        else if (state == State.Cast)
+        {
+            StartCoroutine(Cast());
+            nextCastTime = Time.time + castTime;
+            state = State.Cooldown;
+        } 
     }
 
     public void OnHit(Collider2D other)
     {
-        if (movementState == MovementState.Idle && other.CompareTag("Bullet"))
+        if (state == State.Idle && other.CompareTag("Bullet"))
         {
             StartCoroutine(Hurt());
         }
@@ -115,21 +111,21 @@ public class BossBehavior : MonoBehaviour
     {
         animator.SetTrigger("MeleeTrigger");
         yield return new WaitForSeconds(2.27f);
-        movementState = MovementState.Idle;
+        state = State.Idle;
     }
 
     private IEnumerator Smash()
     {
         animator.SetTrigger("SmashTrigger");
         yield return new WaitForSeconds(2.27f);
-        movementState = MovementState.Idle;
+        state = State.Idle;
     }
 
     private IEnumerator Fire()
     {
         animator.SetTrigger("FireTrigger");
         yield return new WaitForSeconds(2.5f);
-        movementState = MovementState.Idle;
+        state = State.Idle;
     }
 
     private IEnumerator Cast()
@@ -138,7 +134,7 @@ public class BossBehavior : MonoBehaviour
         yield return new WaitForSeconds(0.5f); //Half animation
         foreach (float y in new float[] { 0.5f, 1.5f, 4f, 5f}) 
         {
-            float height = Random.Range(0.2f, 5f); 
+            float height = Random.Range(-0.2f, 3f); 
             Vector3 spawnPoint = new(transform.position.x - projectileOffset*orientation, transform.position.y + height, transform.position.z);
             GameObject projectile = Instantiate(projectilePrefab, spawnPoint, Quaternion.identity);
             DemonProyectileBehavior demonProyectileBehavior = projectile.GetComponent<DemonProyectileBehavior>();
@@ -146,22 +142,22 @@ public class BossBehavior : MonoBehaviour
             yield return new WaitForSeconds(0.025f); //Rest of animation
         }
         yield return new WaitForSeconds(0.5f); //Rest of animation
-        movementState = MovementState.Idle;
+        state = State.Idle;
     }
 
     private IEnumerator Hurt()
     {
         health -= 1;
-        movementState = MovementState.Hurt;
+        state = State.Hurt;
         animator.SetTrigger("HurtTrigger");
         yield return new WaitForSeconds(0.7f);
         if (health > 0)
         {
-            movementState = MovementState.Idle;
+            state = State.Idle;
         }
         else
         {
-            lifeState = LifeState.Dead;
+            state = State.Dead;
             animator.SetTrigger("DeathTrigger");
             yield return new WaitForSeconds(3.2f);
             Destroy(gameObject);

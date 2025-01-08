@@ -29,10 +29,13 @@ public class EnemyBehavior : MonoBehaviour
     private float timeOffset;
 
 
-    void Start()
+    void Awake()
     {
         health = maxHealth;
         timeOffset = Time.time;
+    }
+
+    private void Start() {
         enemyAnimation = GetComponentInChildren<EnemyAnimation>();
     }
 

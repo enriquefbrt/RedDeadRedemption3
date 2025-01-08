@@ -27,8 +27,10 @@ public class CollisionManager : MonoBehaviour
             int orientation = Math.Sign(other.transform.position.x - transform.position.x);
             rb.AddForce(pushDirection.normalized * pushForce * orientation, ForceMode2D.Impulse);
         }
-        StartCoroutine(ChangeColorTemporarily());
-        healthManager.Hurt();
+        if (!other.CompareTag("EnemyRange") && !other.CompareTag("EnemyBody")) {
+            StartCoroutine(ChangeColorTemporarily());
+            healthManager.Hurt();
+        }
     }
     private IEnumerator ChangeColorTemporarily()
     {

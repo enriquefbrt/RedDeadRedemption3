@@ -23,7 +23,7 @@ public class DynamicCollider : MonoBehaviour
         Sprite sprite = spriteRenderer.sprite;
         if (sprite != null)
         {
-            polygonCollider.pathCount = sprite.GetPhysicsShapeCount(); 
+            polygonCollider.pathCount = sprite.GetPhysicsShapeCount(); // Number of paths in the shape
             var path = new List<Vector2>();
 
             for (int i = 0; i < polygonCollider.pathCount; i++)

@@ -10,6 +10,7 @@ public class Following : MonoBehaviour
     public Walk walkClass;
     public float smoothTime = 0.1f;
     public float displacement = 6f;
+    public float zDistance;
 
     private Vector3 velocity = Vector3.zero;
 
@@ -19,7 +20,7 @@ public class Following : MonoBehaviour
         Vector3 chrPosition = chrTransform.position;
         int orientation = walkClass.GetCharacterOrientation(chrTransform);
         cameraTransform.position = new Vector3(chrPosition.x + displacement * orientation,
-            chrPosition.y, chrPosition.z - 10);
+            chrPosition.y, chrPosition.z - zDistance);
     }
 
     // Update is called once per frame
@@ -29,7 +30,7 @@ public class Following : MonoBehaviour
         int orientation = walkClass.GetCharacterOrientation(chrTransform);
         float targetX = chrPosition.x + displacement * orientation;
         float targetY = chrPosition.y;
-        float targetZ = chrPosition.z - 10;
+        float targetZ = chrPosition.z - zDistance;
 
         Vector3 targetPosition = new Vector3(targetX, targetY, targetZ);
 
