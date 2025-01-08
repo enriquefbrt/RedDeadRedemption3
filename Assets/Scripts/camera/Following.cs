@@ -19,7 +19,7 @@ public class Following : MonoBehaviour
         Vector3 chrPosition = chrTransform.position;
         int orientation = walkClass.GetCharacterOrientation(chrTransform);
         cameraTransform.position = new Vector3(chrPosition.x + displacement * orientation,
-            chrPosition.y + 2, chrPosition.z - 10);
+            chrPosition.y, chrPosition.z - 10);
     }
 
     // Update is called once per frame
@@ -28,7 +28,7 @@ public class Following : MonoBehaviour
         Vector3 chrPosition = chrTransform.position;
         int orientation = walkClass.GetCharacterOrientation(chrTransform);
         float targetX = chrPosition.x + displacement * orientation;
-        float targetY = chrPosition.y + 2;
+        float targetY = chrPosition.y;
         float targetZ = chrPosition.z - 10;
 
         Vector3 targetPosition = new Vector3(targetX, targetY, targetZ);

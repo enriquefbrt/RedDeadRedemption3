@@ -15,17 +15,15 @@ public class DynamicCollider : MonoBehaviour
 
     void LateUpdate()
     {
-        // Update the collider to match the current sprite
         UpdateColliderShape();
     }
 
     void UpdateColliderShape()
     {
-        // Ensure the sprite has physics shape data
         Sprite sprite = spriteRenderer.sprite;
         if (sprite != null)
         {
-            polygonCollider.pathCount = sprite.GetPhysicsShapeCount(); // Number of paths in the shape
+            polygonCollider.pathCount = sprite.GetPhysicsShapeCount(); 
             var path = new List<Vector2>();
 
             for (int i = 0; i < polygonCollider.pathCount; i++)

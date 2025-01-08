@@ -16,7 +16,7 @@ public class SlimeBehavior : MonoBehaviour
     private int orientation = 1;
     private Animator animator;
 
-    void Start()
+    void Awake()
     {
         health = maxHealth;
         startPosition = transform.position;
@@ -45,11 +45,12 @@ public class SlimeBehavior : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        health -= 1;
-        animator.SetTrigger("HurtTrigger"); 
-        if (health <= 0)
-        {
-            state = State.Dying;
+        if (other.CompareTag("Bullet")) {
+            health -= 1;
+            animator.SetTrigger("HurtTrigger");
+            if (health <= 0) {
+                state = State.Dying;
+            }
         }
     }
 

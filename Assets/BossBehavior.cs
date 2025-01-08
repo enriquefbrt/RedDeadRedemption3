@@ -25,14 +25,17 @@ public class BossBehavior : MonoBehaviour
    
 
 
-    void Start()
+    void Awake()
     {
         animator = GetComponentInChildren<Animator>();
-        target = GameObject.Find("TestGuy");
         health = maxHealth;
     }
 
-    
+    private void Start() {
+        target = GameObject.Find("CharacterRoot");
+    }
+
+
     void Update()
     {
         if (lifeState == LifeState.Alive)
@@ -136,7 +139,7 @@ public class BossBehavior : MonoBehaviour
         foreach (float y in new float[] { 0.5f, 1.5f, 4f, 5f}) 
         {
             float height = Random.Range(0.2f, 5f); 
-            Vector3 spawnPoint = new(transform.position.x - projectileOffset*orientation, height, transform.position.z);
+            Vector3 spawnPoint = new(transform.position.x - projectileOffset*orientation, transform.position.y + height, transform.position.z);
             GameObject projectile = Instantiate(projectilePrefab, spawnPoint, Quaternion.identity);
             DemonProyectileBehavior demonProyectileBehavior = projectile.GetComponent<DemonProyectileBehavior>();
             demonProyectileBehavior.orientation = orientation;

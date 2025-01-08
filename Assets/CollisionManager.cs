@@ -12,20 +12,20 @@ public class CollisionManager : MonoBehaviour
     public Vector3 pushDirection = new Vector3(-1, 0, 0); // Direction of the push (X-axis by default)
     public float pushForce = 10f; // Magnitude of the force
     
-    private Rigidbody rb;
+    private Rigidbody2D rb;
 
     private void Start()
     {
         spriteRenderer = GetComponentInChildren<SpriteRenderer>();
         originalMaterial = spriteRenderer.material;
-        rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody2D>();
     }
     public void HandleHit(Collider2D other)
     {   
         if (other.CompareTag("Boss"))
         {
             int orientation = Math.Sign(other.transform.position.x - transform.position.x);
-            rb.AddForce(pushDirection.normalized * pushForce * orientation, ForceMode.Impulse);
+            rb.AddForce(pushDirection.normalized * pushForce * orientation, ForceMode2D.Impulse);
         }
         StartCoroutine(ChangeColorTemporarily());
         healthManager.Hurt();
