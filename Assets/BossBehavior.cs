@@ -14,7 +14,7 @@ public class BossBehavior : MonoBehaviour
     public float maxHealth;
     public float projectileOffset;
     public GameObject projectilePrefab;
-    public event Action OnBossDeath;
+    public static event Action OnBossDeath;
 
     private enum State { Idle, Melee, Smash, Fire, Cooldown, Cast, Hurt, Dead };
     private State state = State.Idle;
