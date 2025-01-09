@@ -10,7 +10,7 @@ public class JumpScript : MonoBehaviour
     public TrailRenderer trailRenderer;
     public Walk walkClass;
     private Rigidbody2D rb;
-    private enum State { Jumping, AirDashing, GroundDashing, Grounded};
+    public enum State { Jumping, AirDashing, GroundDashing, Grounded};
     private State currentState;
 
     public float jumpHeight = 2.71828f;
@@ -108,5 +108,9 @@ public class JumpScript : MonoBehaviour
                 doubleJump = true;
             }
         }
+    }
+
+    public State GetState() {
+        return currentState;
     }
 }
