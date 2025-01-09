@@ -6,6 +6,7 @@ using System;
 public class CollisionManager : MonoBehaviour
 {
     [SerializeField] private HealthManager healthManager;
+    [SerializeField] private JumpScript jumpScript;
     private SpriteRenderer spriteRenderer;
     private Material originalMaterial;
     public Material whiteMaterial;
@@ -21,15 +22,16 @@ public class CollisionManager : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
     public void HandleHit(Collider2D other)
-    {   
-        if (other.CompareTag("Boss"))
-        {
-            int orientation = Math.Sign(other.transform.position.x - transform.position.x);
-            rb.AddForce(pushDirection.normalized * pushForce * orientation, ForceMode2D.Impulse);
-        }
-        if (!other.CompareTag("EnemyRange") && !other.CompareTag("EnemyBody")) {
-            StartCoroutine(ChangeColorTemporarily());
-            healthManager.Hurt();
+    {
+        if (jumpScript.GetState() != JumpScript.State.AirDashing && jumpScript.GetState() != JumpScript.State.GroundDashing) {
+            if (other.CompareTag("Boss")) {
+                int orientation = Math.Sign(other.transform.position.x - transform.position.x);
+                rb.AddForce(pushDirection.normalized * pushForce * orientation, ForceMode2D.Impulse);
+            }
+            if (!other.CompareTag("EnemyRange") && !other.CompareTag("EnemyBody")) {
+                StartCoroutine(ChangeColorTemporarily());
+                healthManager.Hurt();
+            }
         }
     }
     private IEnumerator ChangeColorTemporarily()
