@@ -9,10 +9,12 @@ public class SceneTransition : MonoBehaviour
 {
     [SerializeField] private HealthManager healthManager;
     [SerializeField] private BossBehavior bossBehavior;
+    [SerializeField] private VerticalLimit verticalLimit;
 
     private void Start() {
         healthManager.OnPlayerDeath += ToGameOverScreen;
         bossBehavior.OnBossDeath += ToWinScreen;
+        verticalLimit.OnLimitReached += ToGameOverScreen;
     }
 
     private void ToGameOverScreen() {
