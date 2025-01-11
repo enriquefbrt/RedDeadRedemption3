@@ -88,7 +88,7 @@ public class JumpScript : MonoBehaviour
         dashAvailable = true;
     }
 
-    void OnCollisionEnter2D(UnityEngine.Collision2D collision)
+    void OnCollisionStay2D(UnityEngine.Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
