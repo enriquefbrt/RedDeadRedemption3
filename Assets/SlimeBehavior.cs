@@ -1,13 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class SlimeBehavior : MonoBehaviour
 {
-    public float maxHealth;
-    public float movementRange;
-    public float speed;
-    public GameObject BossPrefab;
+    [SerializeField] private float maxHealth;
+    [SerializeField] private float movementRange;
+    [SerializeField] private float speed;
+    [SerializeField] private GameObject BossPrefab;
+    public event Action OnDeath;
 
     private enum State { Idle, Dying, Dead };
     private State state = State.Idle;
@@ -67,6 +69,7 @@ public class SlimeBehavior : MonoBehaviour
         UpdateOrientation();
         animator.SetTrigger("TransformTrigger");
         yield return new WaitForSeconds(5f);
+        OnDeath?.Invoke();
         Instantiate(BossPrefab, transform.position, Quaternion.identity);
         Destroy(gameObject);
     }
