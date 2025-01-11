@@ -13,6 +13,7 @@ TagManager:
   - EnemyBody
   - EnemyRange
   - PlayerHit
+  - Proyectile
   layers:
   - Default
   - TransparentFX

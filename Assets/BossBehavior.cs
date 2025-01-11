@@ -6,21 +6,21 @@ using System;
 
 public class BossBehavior : MonoBehaviour
 {
-    public GameObject target;
-    public float speed;
-    public float smashThreshold;
-    public float castThreshold;
-    public float castTime;
-    public float maxHealth;
-    public float projectileOffset;
-    public GameObject projectilePrefab;
+    [SerializeField] private GameObject target;
+    [SerializeField] private float speed;
+    [SerializeField] private float smashThreshold;
+    [SerializeField] private float castThreshold;
+    [SerializeField] private float castTime;
+    [SerializeField] private float maxHealth;
+    [SerializeField] private float projectileOffset;
+    [SerializeField] private GameObject projectilePrefab;
     public static event Action OnBossDeath;
 
     private enum State { Idle, Melee, Smash, Fire, Cooldown, Cast, Hurt, Dead };
     private State state = State.Idle;
     private int orientation = 1;
-    public float health;
-    public float nextCastTime = 0f;
+    private float health;
+    private float nextCastTime = 0f;
     private Animator animator;
    
 
@@ -42,6 +42,7 @@ public class BossBehavior : MonoBehaviour
         if (state == State.Idle && System.Math.Abs(transform.position.x - target.transform.position.x) >= castThreshold && nextCastTime <= Time.time)
         {
             state = State.Cast;
+            UpdateOrientation();
         }
         else if (state == State.Idle && System.Math.Abs(transform.position.x - target.transform.position.x) >= smashThreshold)
         {
