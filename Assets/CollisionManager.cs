@@ -11,7 +11,7 @@ public class CollisionManager : MonoBehaviour
     private Material originalMaterial;
     public Material whiteMaterial;
     public Vector3 pushDirection = new Vector3(-1, 0, 0); // Direction of the push (X-axis by default)
-    public float pushForce = 10f; // Magnitude of the force
+    public float pushForce = 15f; // Magnitude of the force
     [SerializeField] private  float collisionCooldown = 2f;
     private float newCollisionTime = 0f;
     
