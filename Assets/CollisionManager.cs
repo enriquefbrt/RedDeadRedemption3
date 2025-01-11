@@ -31,7 +31,7 @@ public class CollisionManager : MonoBehaviour
                 rb.AddForce(pushDirection.normalized * pushForce * orientation, ForceMode2D.Impulse);
                 newCollisionTime = Time.time + collisionCooldown;
             }
-            if (!other.CompareTag("EnemyRange") && !other.CompareTag("EnemyBody")) {
+            if (!other.CompareTag("EnemyRange") && !other.CompareTag("EnemyBody") && !other.CompareTag("SecretTag")) {
                 StartCoroutine(ChangeColorTemporarily());
                 healthManager.Hurt();
             }
