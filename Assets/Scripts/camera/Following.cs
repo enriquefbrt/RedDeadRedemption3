@@ -6,11 +6,11 @@ using System;
 public class Following : MonoBehaviour
 {
     [SerializeField] private Transform chrTransform;
-    [SerializeField] private Transform cameraTransform;
     [SerializeField] private Walk walkClass;
     [SerializeField] private float smoothTime = 0.1f;
     [SerializeField] private float displacement = 6f;
     [SerializeField] private float zDistance;
+    [SerializeField] private SlimeBehavior slimeBehavior;
 
     private Vector3 velocity = Vector3.zero;
 
@@ -19,8 +19,10 @@ public class Following : MonoBehaviour
     {
         Vector3 chrPosition = chrTransform.position;
         int orientation = walkClass.GetCharacterOrientation(chrTransform);
-        cameraTransform.position = new Vector3(chrPosition.x + displacement * orientation,
+        transform.position = new Vector3(chrPosition.x + displacement * orientation,
             chrPosition.y, chrPosition.z - zDistance);
+
+        slimeBehavior.OnDeath += UpdateDistance;
     }
 
     // Update is called once per frame
@@ -34,6 +36,10 @@ public class Following : MonoBehaviour
 
         Vector3 targetPosition = new Vector3(targetX, targetY, targetZ);
 
-        cameraTransform.position = Vector3.SmoothDamp(cameraTransform.position, targetPosition, ref velocity, smoothTime);
+        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+    }
+
+    private void UpdateDistance() {
+        zDistance = 9.5f;
     }
 }
