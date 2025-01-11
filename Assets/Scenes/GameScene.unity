@@ -7239,7 +7239,7 @@ GameObject:
   - component: {fileID: 1315921036}
   m_Layer: 0
   m_Name: BeforeBoss
-  m_TagString: Untagged
+  m_TagString: SecretTag
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
