@@ -5,21 +5,21 @@ using System;
 
 public class JumpScript : MonoBehaviour
 {
-    public Animator chrWalk;
-    public Transform chrTransform;
-    public TrailRenderer trailRenderer;
-    public Walk walkClass;
+    [SerializeField] private Animator chrWalk;
+    [SerializeField] private Transform chrTransform;
+    [SerializeField] private TrailRenderer trailRenderer;
+    [SerializeField] private Walk walkClass;
     private Rigidbody2D rb;
     public enum State { Jumping, AirDashing, GroundDashing, Grounded};
     private State currentState;
 
-    public float jumpHeight = 2.71828f;
+    [SerializeField] private float jumpHeight = 2.71828f;
     private bool doubleJump = false;
 
     private bool dashAvailable = true;
-    public float dashPower = 10f;
-    public float dashTime = 0.2f;
-    public float dashCooldown = 1f;
+    [SerializeField] private float dashPower = 15f;
+    [SerializeField] private float dashTime = 0.2f;
+    [SerializeField] private float dashCooldown = 1f;
 
     void Start()
     {

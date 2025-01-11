@@ -5,7 +5,7 @@ using TMPro;
 
 public class HealthDisplay : MonoBehaviour
 {
-    public TextMeshProUGUI healthText;
+    [SerializeField] private TextMeshProUGUI healthText;
     private int playerHealth;
     public static HealthDisplay Instance { get; private set; }
 

@@ -5,26 +5,26 @@ using UnityEngine;
 
 public class Walk : MonoBehaviour
 {
-    public Animator chrWalk;
+    [SerializeField] private Animator chrWalk;
 
-    public Transform chrTransform;
-    public Transform gunTransform;
+    [SerializeField] private Transform chrTransform;
+    [SerializeField] private Transform gunTransform;
 
-    public GameObject gun;
-    private GunStart _gunStart;
+    [SerializeField] private GameObject gun;
+    private GunStart gunStart;
 
-    public float walkingSpeed = 3f;
-    private bool _right = true;
-    private bool _isFlipped = false;
-    private float _gunX;
+    [SerializeField] private float walkingSpeed = 3f;
+    private bool right = true;
+    private bool isFlipped = false;
+    private float gunX;
 
     // Start is called before the first frame update
     void Start()
     {
         chrWalk = GetComponentInChildren<Animator>();
-        _gunStart = gun.GetComponent<GunStart>();
+        gunStart = gun.GetComponent<GunStart>();
 
-        _gunX = _gunStart.x;
+        gunX = gunStart.X;
     }
 
     // Update is called once per frame
@@ -34,9 +34,9 @@ public class Walk : MonoBehaviour
         {
             transform.Translate(Vector3.right * walkingSpeed * Time.deltaTime);
             chrWalk.SetBool("moving", true);
-            if (!_right)
+            if (!right)
             {
-                _right = true;
+                right = true;
                 FlipChild();
             }
         }
@@ -50,9 +50,9 @@ public class Walk : MonoBehaviour
         {
             transform.Translate(Vector3.left * walkingSpeed * Time.deltaTime);
             chrWalk.SetBool("moving", true);
-            if (_right)
+            if (right)
             {
-                _right = false;
+                right = false;
                 FlipChild();
             }
         }
@@ -73,10 +73,10 @@ public class Walk : MonoBehaviour
         gunScale.x *= -1;
         gunTransform.localScale = gunScale;
 
-        _isFlipped = !_isFlipped;
+        isFlipped = !isFlipped;
 
-        if (_isFlipped) { gunTransform.Translate(new Vector3(-2*_gunX, 0, 0)); }
-        else { gunTransform.Translate(new Vector3(2 * _gunX, 0, 0)); }
+        if (isFlipped) { gunTransform.Translate(new Vector3(-2 * gunX, 0, 0)); }
+        else { gunTransform.Translate(new Vector3(2 * gunX, 0, 0)); }
     }
 
     public int GetCharacterOrientation(Transform chrTransform)
