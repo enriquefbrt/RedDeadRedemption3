@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class HealthManager : MonoBehaviour
 {
-    private int health;
-    private float cooldown = 1f;
+    [SerializeField] private int health;
+    [SerializeField] private float cooldown = 1f;
     private float cooldownTime = 0f;
     public event Action OnPlayerDeath;
 

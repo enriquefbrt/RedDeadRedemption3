@@ -8,7 +8,6 @@ public class BulletManager : MonoBehaviour
     public float speed = 30f;
 
     private GameObject character;
-    private GameObject characterRoot;
     private Transform chrTransform;
     private int orientation;
 

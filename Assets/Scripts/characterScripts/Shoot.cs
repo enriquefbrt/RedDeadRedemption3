@@ -5,15 +5,15 @@ using System;
 
 public class Shoot : MonoBehaviour
 {
-    public GameObject normalBullet;
-    public GameObject magicBullet;
-    public Walk walkClass;
-    public Transform chrTransform;
+    [SerializeField] private GameObject normalBullet;
+    [SerializeField] private GameObject magicBullet;
+    [SerializeField] private Walk walkClass;
+    [SerializeField] private Transform chrTransform;
 
-    public float x = 1.23f;
-    public float y = 0.08f;
-    public float normalCooldown = 0.5f;
-    public float magicCooldown = 1f;
+    [SerializeField] private float x = 1.23f;
+    [SerializeField] private float y = 0.08f;
+    [SerializeField] private float normalCooldown = 0.5f;
+    [SerializeField] private float magicCooldown = 1f;
     private float currentNormalCooldown = 0.5f;
     private float currentMagicCooldown = 1f;
 

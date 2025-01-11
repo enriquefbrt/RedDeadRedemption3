@@ -5,12 +5,12 @@ using System;
 
 public class Following : MonoBehaviour
 {
-    public Transform chrTransform;
-    public Transform cameraTransform;
-    public Walk walkClass;
-    public float smoothTime = 0.1f;
-    public float displacement = 6f;
-    public float zDistance;
+    [SerializeField] private Transform chrTransform;
+    [SerializeField] private Transform cameraTransform;
+    [SerializeField] private Walk walkClass;
+    [SerializeField] private float smoothTime = 0.1f;
+    [SerializeField] private float displacement = 6f;
+    [SerializeField] private float zDistance;
 
     private Vector3 velocity = Vector3.zero;
 
