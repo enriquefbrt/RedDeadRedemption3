@@ -5,17 +5,17 @@ using UnityEngine.UIElements;
 
 public class EnemyBehavior : MonoBehaviour
 {
-    public float speed = 5f;  
-    public float amplitude = 1.5f;
-    public float amplitudeY = 0.07f;
-    public float frequence = 0.7f;
-    public float frequenceY = 3f;
-    public float attackCooldown = 2f;
-    public int maxHealth;
-    public int orientation = 1;
-    public float pursuitThreshold = 5;
-    public Vector3 fireballOffset = new(0.7f, 0f, 0f);
-    public GameObject fireballPrefab;
+    [SerializeField] private FireballFactory fireballFactory;
+    [SerializeField] private float speed = 5f;
+    [SerializeField] private float amplitude = 1.5f;
+    [SerializeField] private float amplitudeY = 0.07f;
+    [SerializeField] private float frequence = 0.7f;
+    [SerializeField] private float frequenceY = 3f;
+    [SerializeField] private float attackCooldown = 2f;
+    [SerializeField] private int maxHealth;
+    [SerializeField] private int orientation = 1;
+    [SerializeField] private float pursuitThreshold = 5;
+    [SerializeField] private Vector3 fireballOffset = new(0.7f, 0f, 0f);
 
     private enum AtackState { Ready, Cooldown };
     private AtackState atackState = AtackState.Ready;
@@ -125,7 +125,7 @@ public class EnemyBehavior : MonoBehaviour
     {
         enemyAnimation.TriggerAttackAnimation();
         yield return new WaitForSeconds(enemyAnimation.GetAttackAnimationLength()/2); //middle of animation
-        GameObject fireball = Instantiate(fireballPrefab, transform.position - fireballOffset*orientation, Quaternion.identity);
+        GameObject fireball = fireballFactory.CreateFireball(transform.position - fireballOffset * orientation);
         FireballBehavior fireballBehavior = fireball.GetComponent<FireballBehavior>();
         fireballBehavior.orientation = orientation;
         yield return new WaitForSeconds(attackCooldown);

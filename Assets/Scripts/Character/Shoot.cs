@@ -5,8 +5,8 @@ using System;
 
 public class Shoot : MonoBehaviour
 {
-    [SerializeField] private GameObject normalBullet;
-    [SerializeField] private GameObject magicBullet;
+    [SerializeField] private NormalBulletFactory normalBulletFactory;
+    [SerializeField] private MagicBulletFactory magicBulletFactory;
     [SerializeField] private Walk walkClass;
     [SerializeField] private Transform chrTransform;
 
@@ -29,7 +29,7 @@ public class Shoot : MonoBehaviour
         if (Input.GetMouseButtonDown(0) && currentNormalCooldown > normalCooldown)
         {
             currentNormalCooldown = 0f;
-            GameObject bullet = Instantiate(normalBullet, transform.position, transform.rotation);
+            GameObject bullet = normalBulletFactory.CreateNormalBullet(transform.position);
             bullet.transform.position = BulletInitialPosition();
             Destroy(bullet, 1f);
         }
@@ -37,7 +37,7 @@ public class Shoot : MonoBehaviour
         if (Input.GetMouseButtonDown(1) && currentMagicCooldown > magicCooldown)
         {
             currentMagicCooldown = 0f;
-            GameObject bullet = Instantiate(magicBullet, transform.position, transform.rotation);
+            GameObject bullet = magicBulletFactory.CreateMagicBullet(transform.position);
             bullet.transform.position = BulletInitialPosition();
             Destroy(bullet, 1f);
         }

@@ -7,13 +7,13 @@ using System;
 public class BossBehavior : MonoBehaviour
 {
     [SerializeField] private GameObject target;
+    [SerializeField] private DemonProyectileFactory demonProyectileFactory;
     [SerializeField] private float speed;
     [SerializeField] private float smashThreshold;
     [SerializeField] private float castThreshold;
     [SerializeField] private float castTime;
     [SerializeField] private float maxHealth;
     [SerializeField] private float projectileOffset;
-    [SerializeField] private GameObject projectilePrefab;
     public static event Action OnBossDeath;
 
     private enum State { Idle, Melee, Smash, Fire, Cooldown, Cast, Hurt, Dead };
@@ -139,7 +139,7 @@ public class BossBehavior : MonoBehaviour
         {
             float height = UnityEngine.Random.Range(-0.2f, 3f); 
             Vector3 spawnPoint = new(transform.position.x - projectileOffset*orientation, transform.position.y + height, transform.position.z);
-            GameObject projectile = Instantiate(projectilePrefab, spawnPoint, Quaternion.identity);
+            GameObject projectile = demonProyectileFactory.CreateDemonProyectile(spawnPoint);
             DemonProyectileBehavior demonProyectileBehavior = projectile.GetComponent<DemonProyectileBehavior>();
             demonProyectileBehavior.orientation = orientation;
             yield return new WaitForSeconds(0.025f); //Rest of animation
