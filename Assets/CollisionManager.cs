@@ -25,16 +25,14 @@ public class CollisionManager : MonoBehaviour
     }
     public void HandleHit(Collider2D other)
     {
-        if (jumpScript.GetState() != JumpScript.State.AirDashing && jumpScript.GetState() != JumpScript.State.GroundDashing || !other.CompareTag("Proyectile")) {
-            if (other.CompareTag("Boss") && newCollisionTime < Time.time) {
-                int orientation = Math.Sign(other.transform.position.x - transform.position.x);
-                rb.AddForce(pushDirection.normalized * pushForce * orientation, ForceMode2D.Impulse);
-                newCollisionTime = Time.time + collisionCooldown;
-            }
-            if (!other.CompareTag("EnemyRange") && !other.CompareTag("EnemyBody") && !other.CompareTag("SecretTag")) {
-                StartCoroutine(ChangeColorTemporarily());
-                healthManager.Hurt();
-            }
+        if (other.CompareTag("Boss") && newCollisionTime < Time.time) {
+            int orientation = Math.Sign(other.transform.position.x - transform.position.x);
+            rb.AddForce(pushDirection.normalized * pushForce * orientation, ForceMode2D.Impulse);
+            newCollisionTime = Time.time + collisionCooldown;
+        }
+        if (!other.CompareTag("EnemyRange") && !other.CompareTag("EnemyBody") && !other.CompareTag("SecretTag")) {
+            StartCoroutine(ChangeColorTemporarily());
+            healthManager.Hurt();
         }
     }
     private IEnumerator ChangeColorTemporarily()

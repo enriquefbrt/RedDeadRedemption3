@@ -41,7 +41,7 @@ public class DemonProyectileBehavior : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (state == State.Fly) { state = State.Collide; }
+        if (state == State.Fly && other.CompareTag("PlayerHit")) { state = State.Collide; }
     }
 
     private IEnumerator DestroyProyectile()

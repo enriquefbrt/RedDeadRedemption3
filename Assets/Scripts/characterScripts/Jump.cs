@@ -9,6 +9,7 @@ public class JumpScript : MonoBehaviour
     [SerializeField] private Transform chrTransform;
     [SerializeField] private TrailRenderer trailRenderer;
     [SerializeField] private Walk walkClass;
+    [SerializeField] private GameObject childCollision;
     private Rigidbody2D rb;
     public enum State { Jumping, AirDashing, GroundDashing, Grounded};
     private State currentState;
@@ -71,7 +72,9 @@ public class JumpScript : MonoBehaviour
         float originalGravity = rb.gravityScale;
         rb.gravityScale = 0f;
         int originalLayer = gameObject.layer;
+        int originalChildLayer = childCollision.layer;
         gameObject.layer = LayerMask.NameToLayer("NoCollideWallsMonsters");
+        childCollision.layer = LayerMask.NameToLayer("NoCollideWallsMonsters");
         int orientation = walkClass.GetCharacterOrientation(chrTransform);
         rb.velocity = new Vector2(orientation * dashPower, 0f);
         trailRenderer.emitting = true;
@@ -80,6 +83,7 @@ public class JumpScript : MonoBehaviour
 
         rb.gravityScale = originalGravity;
         gameObject.layer = originalLayer;
+        childCollision.layer = originalChildLayer;
         rb.velocity = new Vector2(0f, rb.velocity.y);
         trailRenderer.emitting = false;
         currentState = (currentState == State.GroundDashing) ? State.Grounded : State.Jumping;
