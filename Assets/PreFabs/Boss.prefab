@@ -298,6 +298,6 @@ MonoBehaviour:
   smashThreshold: 3
   castThreshold: 4
   castTime: 5
-  maxHealth: 10
+  maxHealth: 20
   projectileOffset: 5
   projectilePrefab: {fileID: 8329592727377342200, guid: c5182adecc2131848992df73fef6dedc, type: 3}
