@@ -294,12 +294,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  speed: 1
+  speed: 1.5
   smashThreshold: 3
   castThreshold: 4
   castTime: 5
   maxHealth: 10
   projectileOffset: 5
   projectilePrefab: {fileID: 8329592727377342200, guid: c5182adecc2131848992df73fef6dedc, type: 3}
-  health: 10
-  nextCastTime: 10

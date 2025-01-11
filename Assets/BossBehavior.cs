@@ -153,7 +153,7 @@ public class BossBehavior : MonoBehaviour
         health -= 1;
         state = State.Hurt;
         animator.SetTrigger("HurtTrigger");
-        yield return new WaitForSeconds(0.7f);
+        yield return new WaitForSeconds(0.4667f);
         if (health > 0)
         {
             state = State.Idle;
