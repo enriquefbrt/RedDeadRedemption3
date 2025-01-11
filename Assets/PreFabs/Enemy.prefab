@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1a9bb99f583cc84dad2947db8120c8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fireballFactory: {fileID: 1470161455715011535, guid: 5670e5d8cf1c0b14b86ac50ec8847ef6, type: 3}
   speed: 2.5
   amplitude: 1.5
   amplitudeY: 0.07
@@ -57,7 +58,6 @@ MonoBehaviour:
   orientation: 1
   pursuitThreshold: 5
   fireballOffset: {x: 0.7, y: 0, z: 0}
-  fireballPrefab: {fileID: 2732654494112040920, guid: 1e4f1d8d32d89c448a20cc21c9185021, type: 3}
   health: 10
 --- !u!1 &1595533534380746142
 GameObject:
