@@ -8,12 +8,11 @@ using UnityEngine.UI;
 public class SceneTransition : MonoBehaviour
 {
     [SerializeField] private HealthManager healthManager;
-    [SerializeField] private BossBehavior bossBehavior;
     [SerializeField] private VerticalLimit verticalLimit;
 
     private void Start() {
         healthManager.OnPlayerDeath += ToGameOverScreen;
-        bossBehavior.OnBossDeath += ToWinScreen;
+        BossBehavior.OnBossDeath += ToWinScreen;
         verticalLimit.OnLimitReached += ToGameOverScreen;
     }
 
