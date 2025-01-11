@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using System;
 
 public class SceneTransition : MonoBehaviour
 {
@@ -21,6 +22,12 @@ public class SceneTransition : MonoBehaviour
     }
 
     private void ToWinScreen() {
+        StartCoroutine(WaitThenVictory());
+    }
+
+    IEnumerator WaitThenVictory()
+    {
+        yield return new WaitForSeconds(3f);
         SceneManager.LoadScene("WinScreen");
     }
 }
