@@ -65,6 +65,7 @@ public class JumpScript : MonoBehaviour
         float jumpForce = Mathf.Sqrt(2 * Mathf.Abs(Physics.gravity.y) * jumpHeight);
         rb.velocity = new Vector2(0f, jumpForce);
     }
+
     IEnumerator Dash()
     {
         dashAvailable = false;
