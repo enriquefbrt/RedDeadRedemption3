@@ -10,8 +10,8 @@ public class CollisionManager : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     private Material originalMaterial;
     public Material hurtMaterial;
-    public Vector3 pushDirection = new Vector3(-1, 0, 0); // Direction of the push (X-axis by default)
-    public float pushForce = 15f; // Magnitude of the force
+    public Vector3 pushDirection = new Vector3(-1, 0, 0);
+    public float pushForce = 15f;
     [SerializeField] private  float collisionCooldown = 2f;
     private float newCollisionTime = 0f;
     

@@ -11,8 +11,6 @@ public class GunStart : MonoBehaviour
     void Start()
     {
         Transform parentTransform = transform.parent;
-
-        // Modify the parent's position
         transform.position = parentTransform.position + new Vector3(x, y, 0f);
     }
 

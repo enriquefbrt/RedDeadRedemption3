@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Collision2D : MonoBehaviour
 {
-    private CollisionManager parentScript; // Reference to the parent script
+    private CollisionManager parentScript;
 
     private void Start()
     {
