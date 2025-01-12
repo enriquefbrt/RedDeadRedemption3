@@ -7326,6 +7326,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthManager: {fileID: 646676693}
   verticalLimit: {fileID: 83698191}
+  slimeBehavior: {fileID: 1535992646}
 --- !u!4 &1280959118
 Transform:
   m_ObjectHideFlags: 0

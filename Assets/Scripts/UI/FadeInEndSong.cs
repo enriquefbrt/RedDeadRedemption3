@@ -11,9 +11,13 @@ public class FadeInEndSong : MonoBehaviour
     private void Awake()
     {
         originalVolume = endMusic.volume;
-        endMusic.Play();
-        endMusic.Pause();
     }
+
+    private void Start()
+    {
+        StartCoroutine(FadeInVolume());
+    }
+
     private IEnumerator FadeInVolume()
     {
         endMusic.Play();

@@ -34,7 +34,6 @@ public class SlimeBehavior : MonoBehaviour
         bossMusic.Pause();
     }
 
-    
     void Update()
     {
         if (state == State.Idle)
@@ -80,8 +79,9 @@ public class SlimeBehavior : MonoBehaviour
         yield return new WaitForSeconds(2.5f);
         StartCoroutine(FadeInVolume());
         yield return new WaitForSeconds(2.5f);
-        OnDeath?.Invoke();
         Instantiate(BossPrefab, transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(0.1f);
+        OnDeath?.Invoke();
         Destroy(gameObject);
     }
 

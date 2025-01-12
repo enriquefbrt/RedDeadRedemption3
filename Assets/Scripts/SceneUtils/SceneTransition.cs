@@ -10,10 +10,11 @@ public class SceneTransition : MonoBehaviour
 {
     [SerializeField] private HealthManager healthManager;
     [SerializeField] private VerticalLimit verticalLimit;
+    [SerializeField] private SlimeBehavior slimeBehavior;
 
     private void Start() {
         healthManager.OnPlayerDeath += ToGameOverScreen;
-        BossBehavior.OnBossDeath += ToWinScreen;
+        slimeBehavior.OnDeath += FindBoss;
         verticalLimit.OnLimitReached += ToGameOverScreen;
     }
 
@@ -23,6 +24,11 @@ public class SceneTransition : MonoBehaviour
 
     private void ToWinScreen() {
         StartCoroutine(WaitThenVictory());
+    }
+
+    private void FindBoss() {
+        GameObject boss = GameObject.Find("Boss(Clone)");
+        boss.GetComponent<BossBehavior>().OnBossDeath += ToWinScreen;
     }
 
     IEnumerator WaitThenVictory()

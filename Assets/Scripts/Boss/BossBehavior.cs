@@ -15,7 +15,7 @@ public class BossBehavior : MonoBehaviour {
     [SerializeField] private float projectileOffset;
     private GameObject bossMusicObject;
     private AudioSource bossMusic;
-    public static event Action OnBossDeath;
+    public event Action OnBossDeath;
 
     private enum State { Idle, Melee, Smash, Fire, Cooldown, Cast, Hurt, Dead };
     private State state = State.Idle;
@@ -28,13 +28,13 @@ public class BossBehavior : MonoBehaviour {
 
 
     void Awake() {
-        bossMusicObject = GameObject.Find("bossMusic");
-        bossMusic = bossMusicObject.GetComponent<AudioSource>();
         animator = GetComponentInChildren<Animator>();
         health = maxHealth;
     }
 
     private void Start() {
+        bossMusicObject = GameObject.Find("bossMusic");
+        bossMusic = bossMusicObject.GetComponent<AudioSource>();
         target = GameObject.Find("Player");
         UpdateOrientation();
     }
