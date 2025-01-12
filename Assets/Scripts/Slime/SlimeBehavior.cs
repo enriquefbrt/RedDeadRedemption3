@@ -9,6 +9,8 @@ public class SlimeBehavior : MonoBehaviour
     [SerializeField] private float movementRange;
     [SerializeField] private float speed;
     [SerializeField] private GameObject BossPrefab;
+    private GameObject bossMusicObject;
+    private AudioSource bossMusic;
     public event Action OnDeath;
 
     private enum State { Idle, Dying, Dead };
@@ -16,13 +18,20 @@ public class SlimeBehavior : MonoBehaviour
     private float health;
     private Vector3 startPosition;
     private int orientation = 1;
+    private float fadeDurationIn = 1f;
+    private float originalVolume;
     private Animator animator;
 
     void Awake()
     {
+        bossMusicObject = GameObject.Find("bossMusic");
+        bossMusic = bossMusicObject.GetComponent<AudioSource>();
+        originalVolume = bossMusic.volume;
         health = maxHealth;
         startPosition = transform.position;
         animator = GetComponentInChildren<Animator>();
+        bossMusic.Play();
+        bossMusic.Pause();
     }
 
     
@@ -68,9 +77,26 @@ public class SlimeBehavior : MonoBehaviour
         orientation = 1;
         UpdateOrientation();
         animator.SetTrigger("TransformTrigger");
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(2.5f);
+        StartCoroutine(FadeInVolume());
+        yield return new WaitForSeconds(2.5f);
         OnDeath?.Invoke();
         Instantiate(BossPrefab, transform.position, Quaternion.identity);
         Destroy(gameObject);
+    }
+
+    private IEnumerator FadeInVolume()
+    {
+        bossMusic.Play();
+        float elapsed = 0f;
+
+        while (elapsed < fadeDurationIn)
+        {
+            elapsed += Time.deltaTime;
+            bossMusic.volume = Mathf.Lerp(0f, originalVolume, elapsed / fadeDurationIn);
+            yield return null;
+        }
+
+        bossMusic.volume = originalVolume;
     }
 }

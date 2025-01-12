@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class BulletManager : MonoBehaviour
 {
+    [SerializeField] bool isBulletMagic;
     public float speed = 30f;
 
     private GameObject character;
@@ -25,6 +26,7 @@ public class BulletManager : MonoBehaviour
         Vector3 translatePoint = Vector3.right * orientation * speed * Time.deltaTime;
         translatePoint.z = 0f;
         transform.Translate(translatePoint);
-        Destroy(gameObject, 2f);
+        if (isBulletMagic) { Destroy(gameObject, 2f); }
+        else { Destroy(gameObject, 0.4f); }
     }
 }

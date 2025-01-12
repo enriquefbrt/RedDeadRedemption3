@@ -300,4 +300,4 @@ MonoBehaviour:
   castThreshold: 5
   castTime: 5
   maxHealth: 20
-  projectileOffset: 5
+  projectileOffset: 4

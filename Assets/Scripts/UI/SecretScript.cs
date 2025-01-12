@@ -7,6 +7,7 @@ using TMPro;
 public class SecretScript : MonoBehaviour
 {
     [SerializeField] private GameObject secretText;
+    [SerializeField] private AudioSource previousMusic;
     private AudioSource music;
     private Following cameraScript;
     private GameObject mainCamera;
@@ -26,6 +27,7 @@ public class SecretScript : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            previousMusic.Pause();
             music.Play();
             cameraScript.enabled = false;
             originalPosition = mainCamera.transform.position;
@@ -38,6 +40,7 @@ public class SecretScript : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            previousMusic.Play();
             music.Stop();
             StopCoroutine(moveCameraCoroutine);
             cameraScript.enabled = true;

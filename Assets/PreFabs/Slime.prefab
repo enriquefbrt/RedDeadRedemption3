@@ -119,6 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fef2f4e6c2ae7140a058fb90f73b6c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  BossMusic: {fileID: 5896124240455423941, guid: e88636e876bfb014aacd9ef44e827dad, type: 3}
   maxHealth: 4
   movementRange: 2
   speed: 0.5

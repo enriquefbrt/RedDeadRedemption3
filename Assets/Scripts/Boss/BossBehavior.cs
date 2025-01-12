@@ -13,6 +13,8 @@ public class BossBehavior : MonoBehaviour {
     [SerializeField] private float castTime;
     [SerializeField] private float maxHealth;
     [SerializeField] private float projectileOffset;
+    private GameObject bossMusicObject;
+    private AudioSource bossMusic;
     public static event Action OnBossDeath;
 
     private enum State { Idle, Melee, Smash, Fire, Cooldown, Cast, Hurt, Dead };
@@ -20,11 +22,14 @@ public class BossBehavior : MonoBehaviour {
     private int orientation = 1;
     private float health;
     private float nextCastTime = 0f;
+    private float fadeDurationOut = 5f;
     private Animator animator;
 
 
 
     void Awake() {
+        bossMusicObject = GameObject.Find("bossMusic");
+        bossMusic = bossMusicObject.GetComponent<AudioSource>();
         animator = GetComponentInChildren<Animator>();
         health = maxHealth;
     }
@@ -137,9 +142,27 @@ public class BossBehavior : MonoBehaviour {
         else {
             state = State.Dead;
             animator.SetTrigger("DeathTrigger");
-            yield return new WaitForSeconds(3.2f);
+            StartCoroutine(FadeOutVolume());
+            yield return new WaitForSeconds(5.1f);
             OnBossDeath?.Invoke();
             Destroy(gameObject);
         }
+    }
+
+    private IEnumerator FadeOutVolume()
+    {
+        float startVolume = bossMusic.volume;
+        float elapsed = 0f;
+
+        while (elapsed < fadeDurationOut)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / fadeDurationOut);
+            bossMusic.volume = Mathf.Lerp(startVolume, 0f, t);
+            yield return null;
+        }
+
+        bossMusic.volume = 0f;
+        bossMusic.Stop();
     }
 }
