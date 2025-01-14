@@ -54,7 +54,7 @@ MonoBehaviour:
   frequence: 0.7
   frequenceY: 3
   attackCooldown: 2
-  maxHealth: 5
+  maxHealth: 3
   orientation: 1
   pursuitThreshold: 5
   fireballOffset: {x: 0.7, y: 0, z: 0}
